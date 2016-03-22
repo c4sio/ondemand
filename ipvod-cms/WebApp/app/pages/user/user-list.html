@@ -1,0 +1,65 @@
+<div class="page-header"><h1>Usuários</h1></div>
+
+<!-- PAGE CONTENT BEGINS -->
+<div class="row">
+    <div class="col-xs-12 wizard-actions">
+        <a href="#/usuarios/cadastrar" class="btn btn-primary"> <i class="fa fa-plus-circle"></i> Adicionar Usuário</a>
+    </div>
+    <div class="col-xs-12"><div class="space-12"></div></div>
+    <div class="col-xs-12">
+        <table class="table table-striped table-bordered table-hover table-toolbar-right">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Perfil</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="user in users">
+                    <td> <a ng-href="#/usuarios/{{user.userSysId}}/editar">{{ user.username }}</a> </td>
+                    <td> {{ user.role }} </td>
+                    <td> 
+                    	<span ng-show="user.active"> Ativo</span>
+                    	<span ng-show="!user.active"> Inativo</span> 
+					</td>
+                    <td>
+                        <div class="hidden-sm hidden-xs btn-group">
+                            <a href="#/usuarios/{{user.userSysId}}/editar" class="btn btn-xs btn-info">
+                                <i class="ace-icon fa fa-pencil bigger-120"></i>
+                            </a>
+                            <a class="btn btn-xs btn-warning" ng-click="activate(user.userSysId, user.username)" ng-show="!user.active">
+                                <i class="ace-icon fa fa-square-o bigger-120"></i>
+                            </a>
+                            <a class="btn btn-xs btn-warning" ng-click="deactivate(user.userSysId, user.username)" ng-show="user.active">
+                                <i class="ace-icon fa fa-check-square-o bigger-120"></i>
+                            </a>
+                            <a class="btn btn-xs btn-danger" ng-click="removeUser(user.userSysId, user.username)">
+                                <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                            </a>
+                        </div>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- /.span -->
+</div>
+<!-- /.row -->
+
+<!-- Modal Template -->
+<script type="text/ng-template" id="modal-template">
+    <div ng-show="modalTitle !== null" class="modal-header">
+        <h3 class="modal-title">{{ modalTitle }}</h3>
+    </div>
+    <div class="modal-body">{{ modalBody }}</div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">OK</button>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
+</script>
+<!-- End:: Modal Template -->
+
+<!-- PAGE CONTENT ENDS -->

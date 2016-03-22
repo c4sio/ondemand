@@ -1,0 +1,85 @@
+<!doctype html>
+<html class="no-js" ng-app="vod">
+  <head>
+    <meta charset="utf-8">
+    <title>GVT - On Demand admin</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link href="assets/css/gvt-bootstrap.css" rel="stylesheet">
+    <!-- endbuild -->
+  </head>
+  <body>
+    <!--[if lt IE 10]>
+        <div class="no-support-message alert alert-danger no-margin">
+            <i class="fa fa-warning"></i>
+            O aplicativo não oferece suporte à versão do Internet Explorer que você está utilizando.
+            Por favor, <a href="http://browsehappy.com/">atualize</a> para a última versão.
+        </div>
+    <![endif]-->
+    
+    <toaster-container toaster-options="{'time-out': 10000, 'position-class': 'toast-top-center'}"></toaster-container>
+
+    <!-- Add your site or application content here -->
+    <div class="container" ng-view></div>
+
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="../bower_components/jquery/dist/jquery.js"></script>
+
+    <script src="../bower_components/bootstrap/js/affix.js"></script>
+    <script src="../bower_components/bootstrap/js/alert.js"></script>
+    <script src="../bower_components/bootstrap/js/button.js"></script>
+    <script src="../bower_components/bootstrap/js/carousel.js"></script>
+    <script src="../bower_components/bootstrap/js/collapse.js"></script>
+    <script src="../bower_components/bootstrap/js/dropdown.js"></script>
+    <script src="../bower_components/bootstrap/js/tab.js"></script>
+    <script src="../bower_components/bootstrap/js/transition.js"></script>
+    <script src="../bower_components/bootstrap/js/scrollspy.js"></script>
+    <script src="../bower_components/bootstrap/js/modal.js"></script>
+    <script src="../bower_components/bootstrap/js/tooltip.js"></script>
+    <script src="../bower_components/bootstrap/js/popover.js"></script>
+
+    <script src="../bower_components/angular/angular.js"></script>
+    <script src="../bower_components/angular-resource/angular-resource.js"></script>
+    <script src="../bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="../bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="../bower_components/angular-animate/angular-animate.js"></script>
+    <script src="../bower_components/angular-route/angular-route.js"></script>
+    <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:js({.tmp,app}) scripts/components.js -->
+    <!-- Initialization -->
+    <script src="vod-public.js"></script>
+
+    <script src="components/http-interceptor/http-interceptor.js"></script>
+    <script src="components/loading-widget/request-notification.js"></script>
+    <script src="modules/toaster/toaster.js"></script>
+
+    <script src="config.js"></script> 
+    
+    <!-- Core/General -->
+    <script src="components/api/api-service.js"></script>
+    <script src="components/auth/auth-service.js"></script>
+    
+    <!-- Pages -->
+    <script src="pages/index/index-controller.js"></script>
+    <script src="pages/login/login-controller.js"></script>
+ 	<script src="pages/login/login-service.js"></script>
+    <script src="pages/password-recovery/password-recovery-controller.js"></script>
+    <script src="twitter-controller.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:remove -->
+    <script src="dev.js"></script>
+    <!-- endbuild -->
+
+  </body>
+</html>

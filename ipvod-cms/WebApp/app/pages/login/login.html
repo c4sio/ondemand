@@ -1,0 +1,174 @@
+<div class="login-layout light-login" ng-controller="LoginCtrl">
+    <div class="main-container">
+        <div class="main-content">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="login-container">
+                        <div class="center">
+                            <h1>IPVOD Admin</h1>
+                            <h4 id="id-company-text">
+                                <img src="assets/img/logo-gvt.png" alt="GVT">
+                            </h4>
+                        </div>
+
+                        <div class="space-6"></div>
+                        <div class="position-relative">
+                            <div id="login-box" class="login-box visible widget-box no-border">
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <h4 class="header blue lighter bigger">Por favor, insira seus dados</h4>
+                                        <div class="space-6"></div>
+
+                                        <form class="form-horizontal" name="loginFormNg">
+                                            <fieldset>
+                                                <label class="block clearfix"> 
+                                                    <span class="block input-icon input-icon-right"> 
+                                                        <input type="text" name="username" ng-model="userLogin.username" class="form-control" placeholder="Nome de usuário" required/>
+                                                        <i class="ace-icon fa fa-user"></i>
+                                                    </span>
+                                                </label> 
+                                                <label class="block clearfix"> 
+                                                    <span class="block input-icon input-icon-right">
+                                                        <input type="password" name="password" ng-model="userLogin.password" class="form-control" placeholder="Senha" required/>
+                                                        <i class="ace-icon fa fa-lock"></i>
+                                                    </span>
+                                                </label>
+
+                                                <div class="space"></div>
+
+                                                <div class="clearfix">
+                                                    <div class="checkbox inline">
+                                                        <label>
+                                                            <input name="form-field-checkbox" ng-model="userLogin.keepLoggedIn" type="checkbox" class="ace">
+                                                            <span class="lbl"> Continuar conectado</span>
+                                                        </label>
+                                                    </div>
+
+                                                    <!-- <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" class="ace" ng-model="userLogin.keepLoggedIn"/>  
+                                                            <span class="lbl">Continuar conectado</span>
+                                                        </label>
+                                                    </div> -->
+
+                                                    <button ng-click="login(userLogin)" type="submit" class="width-35 pull-right btn btn-sm btn-primary">
+                                                        <span class="bigger-110">Entrar</span>
+                                                    </button>
+                                                </div>
+
+                                                <div class="space-4"></div>
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                    <!-- /.widget-main -->
+
+                                    <div class="toolbar clearfix">
+                                        <div>
+                                            <a data-target="#forgot-box" class="forgot-password-link">
+                                                <i class="ace-icon fa fa-arrow-left"></i> Recuperar senha
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.widget-body -->
+                            </div>
+                            <!-- /.login-box -->
+
+                            <div id="forgot-box" class="forgot-box widget-box no-border">
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <h4 class="header red lighter bigger">
+                                            <i class="ace-icon fa fa-key"> </i> Recuperar Senha
+                                        </h4>
+
+                                        <div class="space-6"></div>
+                                        <p>Insira seu e-mail para receber instru&ccedil;&otilde;es</p>
+
+                                        <form>
+                                            <fieldset>
+                                                <label class="block clearfix"> 
+                                                    <span class="block input-icon input-icon-right">
+                                                        <input ng-model="userEmail.email" type="email" class="form-control" placeholder="E-mail" required/>
+                                                    
+                                                        <i class="ace-icon fa fa-lock"></i>
+                                                        <i class="ace-icon fa fa-envelope"> </i>
+                                                    </span>
+                                                </label>
+
+                                                <div class="clearfix">
+                                                    <button ng-click="recoverEmail(userEmail)" type="submit" class="width-35 pull-right btn btn-sm btn-danger">
+                                                        <i class="ace-icon fa fa-lightbulb-o"> </i> 
+                                                        <span class="bigger-110"> Enviar! </span>
+                                                    </button>
+                                                </div>
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                    <!-- /.widget-main -->
+
+                                    <div class="toolbar center">
+                                        <a data-target="#login-box" class="back-to-login-link"> Retornar ao login </a>
+                                    </div>
+                                </div>
+                                <!-- /.widget-body -->
+                            </div>
+                            <!-- /.forgot-box -->
+                            
+                            
+                            
+                            <div id="recover-box" class="forgot-box widget-box no-border">
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <h4 class="header red lighter bigger">
+                                            <i class="ace-icon fa fa-key"> </i> Recuperar Senha
+                                        </h4>
+
+                                        <div class="space-6"></div>
+                                        <p>Insira seu e-mail para receber instru&ccedil;&otilde;es</p>
+
+                                        <form>
+                                            <fieldset>
+                                                <label class="block clearfix"> 
+                                                    <span class="block input-icon input-icon-right">
+                                                        <input type="text" class="form-control" placeholder="Email" 
+                                                            ng-model="gvtForm.email" />
+                                                    
+                                                        <i class="ace-icon fa fa-lock"></i>
+                                                        <i class="ace-icon fa fa-envelope"> </i>
+                                                    </span>
+                                                </label>
+
+                                                <div class="clearfix">
+                                                    <button type="submit" class="width-35 pull-right btn btn-sm btn-danger"
+                                                        ng-click="gvtForm.recoverEmail()">
+                                                        <i class="ace-icon fa fa-lightbulb-o"> </i> 
+                                                        <span class="bigger-110"> Enviar! </span>
+                                                    </button>
+                                                </div>
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                    <!-- /.widget-main -->
+
+                                    <div class="toolbar center">
+                                        <a data-target="#login-box" class="back-to-login-link"> Retornar ao login </a>
+                                    </div>
+                                </div>
+                                <!-- /.widget-body -->
+                            </div>
+                        </div>
+                        <!-- /.position-relative -->
+                    </div>
+
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.main-content -->
+    </div>
+    <!-- /.main-container -->
+
+    <!-- basic scripts -->
+
+</div>

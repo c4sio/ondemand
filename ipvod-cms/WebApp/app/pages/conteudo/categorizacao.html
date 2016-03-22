@@ -1,0 +1,443 @@
+<style>
+    .form-control{height: 30px}
+    .col-sm-6 input,.col-sm-6 textarea{ width: 100%}
+</style>
+<div class="page-header">
+    <h1>
+        Ingestão 
+        <small> 
+            <i class="ace-icon fa fa-angle-double-right"></i> 
+            conteúdo em processamento
+        </small>
+    </h1> 
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+
+        <!-- Form Holder -->
+        <div class="form-holder">
+
+            <!-- Back button -->
+            <span class="back-button" title="voltar">
+                <a href="javascript: history.back();"><i class="fa fa-arrow-circle-left"></i></a>            
+            </span>
+            <!-- end:: Back button -->
+
+            <div class="step-pane editable-content">
+                <div class="center">
+                    <h3 class="green lighter">Categorização dos dados</h3> 
+                </div>
+
+                <h4>
+                    <i class="fa fa-film fa-fw"></i> 
+                    <span id="asset-title" contenteditable strip-br="true" ng-model="asset.title">{{ asset.title }}</span>
+                    <span class="badge badge-default"> # {{ asset.assetId }} </span>
+                    <span ng-click="edit('asset-title')" class="edit-icon"> <i class="fa fa-edit"></i> </span>
+                    <input type="text" class="hide" ng-model="asset.title"> 
+                </h4>
+
+                <div class="space-20"></div>
+
+                <ul id="asset-tabs" class="nav nav-tabs" role="tablist" ng-init="tab = 1">
+                    <li class="active" ng-class="{active: tab === 1}">
+                        <a href ng-click="tab = 1" role="tab" data-toggle="tab">Informações</a>
+                    </li>
+                    <li ng-class="{active: tab === 2}">
+                        <a href ng-click="tab = 2" role="tab" data-toggle="tab">Poster</a>
+                    </li>
+                    <li ng-class="{active: tab === 3}">
+                        <a href ng-click="tab = 3" role="tab" data-toggle="tab">Categorização</a>
+                    </li>
+                    <li ng-class="{active: tab === 4}">
+                        <a href ng-click="tab = 4" role="tab" data-toggle="tab">Relacionamentos</a>
+                    </li>
+                    <li ng-class="{active: tab === 5}">
+                        <a href ng-click="tab = 5" role="tab" data-toggle="tab">Histórico</a>
+                    </li>
+                    
+                </ul>
+
+                <div class="tab-content editable-content">
+                    <div id="asset-info-tab" ng-class="{active: tab === 1}" class="tab-pane">
+                        <h5 class="green">Informações</h5>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <section>
+                                    <h6>Descrição</h6>
+                                    <!-- Nav Tabs -->
+                                    <ul id="asset-description-tabs" class="nav nav-tabs" role="tablist">
+                                        <li class="active">
+                                            <a href role="tab" data-toggle="tab">Completa</a>
+                                        </li>
+                                    </ul>
+                                    <!-- End:: Nav Tabs -->
+
+                                    <!-- Tab Content -->
+                                    <div class="tab-content">
+                                        <div id="asset-info-description-long-tab" class="tab-pane active">
+                                            <div>
+                                                <span id="asset-info-description-long-tab-text" contenteditable="true" ng-model="asset.description"></span>
+                                                <span ng-click="edit('asset-info-description-long-tab-text')" class="edit-icon"> 
+                                                    <i class="fa fa-edit"></i> 
+                                                </span>
+                                            </div>
+                                            <input class="hide" type="text" ng-model="asset.description">
+                                        </div>
+                                    </div>
+                                    <!-- End:: Tab Content-->
+                                </section>
+                                <section>
+                                    <h6>Direção</h6>
+                                    <span id="asset-info-director" strip-br="true" contenteditable="true" ng-model="asset.director"></span>
+                                    <span ng-click="edit('asset-info-director')" class="edit-icon">
+                                        <i class="fa fa-edit"></i> 
+                                    </span>
+                                    <input class="hide" type="text" ng-model="asset.director">
+                                </section>
+                            </div>
+                            <div class="col-sm-4">
+                                <dl id="asset-info-details">
+                                    <dt>Ano de Lançamento</dt>
+                                    <dd>
+                                        <span id="asset-info-creation" 
+                                            contenteditable="true" 
+                                            strip-br="true" 
+                                            ng-model="asset.releaseYear"></span>
+                                        <span ng-click="edit('asset-info-creation')" id="asset-info-creation-button" class="edit-icon"> 
+                                            <i class="fa fa-edit"></i> 
+                                        </span>
+                                        <input class="hide" type="text" id="#asset-info-creation" ng-model="asset.releaseYear">
+                                    </dd>
+
+                                    <dt>País de Origem</dt>
+                                    <dd>
+                                        <span id="asset-info-origin" 
+                                            contenteditable="true" 
+                                            strip-br="true" 
+                                            ng-model="asset.country"></span>
+                                        <span ng-click="edit('asset-info-origin')" class="edit-icon">
+                                            <i class="fa fa-edit"></i> 
+                                        </span>
+                                        <input class="hide" type="text" ng-model="asset.country">
+                                    </dd>
+
+                                    <dt>Preço sugerido</dt>
+                                    <dd class="form-inline">
+                                        <input class="form-control" 
+                                            type="number" 
+                                            ng-model="asset.price" 
+                                            step="0.01"
+                                            model-view-value="true"
+                                            min="0.00"
+                                            max="999.99">
+                                    </dd>
+
+                                    <dt>Duração (minutos)</dt>
+                                    <dd>
+                                        <span contenteditable="true" id="asset-total-time" strip-br="true" ng-model="asset.totalTime"></span>
+                                        <span ng-click="edit('asset-total-time')" class="edit-icon" >
+                                            <i class="fa fa-edit"></i> 
+                                        </span>
+                                        <input class="hide" type="text" ng-model="asset.totalTime">
+                                    </dd>
+
+                                    <dt>Fornecedor</dt>
+                                    <dd>
+                                        <select 
+                                            name="role" 
+                                            id="role" 
+                                            ng-model="asset.ipvodContentProvider" 
+                                            ng-options="contentProvider.providerId for contentProvider in contentProviders" 
+                                            class="form-control">
+                                            <option value="">Selecione</option>
+                                        </select>
+                                    </dd>
+
+                                    <dt>Produto</dt>
+                                    <dd>
+                                        <span id="asset-info-product" contenteditable="true" strip-br="true" ng-model="asset.product">Lorem ipsum</span>
+                                        <span ng-click="edit('asset-info-product')" class="edit-icon">
+                                            <i class="fa fa-edit"></i> 
+                                        </span>
+                                        <input class="hide" type="text" ng-model="asset.product">
+                                    </dd>
+
+                                    <dt>Licença</dt>
+                                    <dd>
+                                        <p>
+                                            <span>Início:</span> 
+                                            <input class="form-control" type="date" id="asset-info-licensing-start" ng-model="asset.licenseWindowStart">
+                                        </p>
+                                        <p>
+                                            <span>Final:</span>
+                                            <input class="form-control" type="date" id="asset-info-licensing-end" ng-model="asset.licenseWindowEnd">
+                                        </p>
+                                        </p>
+                                    </dd>
+
+                                    <dt>Rating</dt>
+                                    <dd>
+                                        <select 
+                                            name="asset-rating" 
+                                            id="asset-rating" 
+                                            ng-model="asset.rating" 
+                                            ng-options="rating.description for rating in ratings" class="form-control">
+                                            <option value="">Selecione</option>
+                                        </select>
+                                    </dd>
+
+                                    <dt>Temporada</dt>
+                                    <dd>
+                                        <span id="asset-info-season" 
+                                            strip-br="true" 
+                                            contenteditable="true" 
+                                            ng-model="asset.season">
+                                        </span>
+                                        <span ng-click="edit('asset-info-season')" class="edit-icon">
+                                            <i class="fa fa-edit"></i> 
+                                        </span>
+                                        <input class="hide" type="text" ng-model="asset.season"> 
+                                    </dd>
+
+                                    <dt>Episódio Número</dt>
+                                    <dd>
+                                        <span id="asset-info-episode" strip-br="true" contenteditable="true" ng-model="asset.episode"></span>
+                                        <span ng-click="edit('asset-info-episode')" class="edit-icon">
+                                            <i class="fa fa-edit"></i> 
+                                        </span>
+                                        <input class="hide" type="text" ng-model="asset.episode">
+                                    </dd>
+
+                                   <dt>Billing ID</dt>
+                                    <dd>
+                                        <span id="asset-billing-id" strip-br="true" contenteditable="true" ng-model="asset.billingID"></span>
+                                        <span ng-click="edit('asset-billing-id')" class="edit-icon">
+                                            <i class="fa fa-edit"></i> 
+                                        </span>
+                                        <input class="hide" type="text" ng-model="asset.billingID">
+                                    </dd>
+
+                                    <dt>Episódio Nome</dt>
+                                    <dd>
+                                        <span id="asset-info-episode-name" strip-br="true" contenteditable="true" ng-model="asset.episodeName"></span>
+                                        <span ng-click="edit('asset-info-episode-name')" class="edit-icon">
+                                            <i class="fa fa-edit"></i> 
+                                        </span>
+                                        <input class="hide" type="text" ng-model="asset.episodeName">
+                                    </dd>
+                                    <dt>Pode Retomar?</dt>
+                                    <dd>
+                                        <!-- NOTE: "track by" and "as" can't be used together. -->
+                                        <select
+                                            name="asset-can-resume" 
+                                            id="asset-can-resume" 
+                                            ng-model="asset.canResume" 
+                                            ng-options="canResumeOption.label for canResumeOption in canResumeOptions"
+                                            class="form-control">
+                                            <option value="">Selecione</option>
+                                        </select>
+                                    </dd>                       
+
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="asset-poster-tab" ng-class="{active: tab === 2}" class="tab-pane">
+                        <h5 class="green">Pôster</h5>
+
+                        <img ng-if="mediaAsset.url" src="{{ mediaAsset.url }}"> 
+
+                        <div ng-if="!mediaAsset.url" class="alert alert-info">
+                            <i class="fa fa-info-circle"></i>
+                             Nenhuma imagem de pôster cadastrada.
+                        </div>
+                        <br>
+                        <br>
+                        <button data-target="#imgModal" data-toggle="modal" class="btn btn-primary" >
+                            <i class="ace-icon fa fa-plus bigger-110"></i> Nova Imagem
+                        </button>
+                    </div>
+                     <div class="tab-pane"
+                            ng-class="{active: tab === 3}">
+                            <form class="form-horizontal">
+                                <div class="form-group no-margin">
+                                    <h4 class="header smaller lighter blue">Utilize o campo abaixo para inserir e remover menus</h4>
+                                    <ui-select
+                                        multiple
+                                        ng-disabled="disabled"
+                                        ng-model="asset.ipvodVisualMenus">
+                                        <ui-select-match placeholder="Selecione menus">{{ $item.breadcrumbs }}</ui-select-match>
+                                        <ui-select-choices 	repeat="menu in menus | filter: $select.search">
+                                            {{ menu.breadcrumbs }}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                            </form>
+                        </div>                    
+                    <div id="asset-info-tab2" ng-class="{active: tab === 4}" class="tab-pane">
+                        <h5 class="green">Relacionamentos</h5>
+                        <!-- Tree Recursive Template -->
+                        <!-- TODO: Thyago Weber: Move this to a directive -->
+                        <script type="text/ng-template" id="list-item.html">
+                            <div class="tree-branch-header" ng-if="relationship.ipvodVisualMenus.length">
+                                <span class="tree-branch-name">
+                                    <i class="icon-folder ace-icon tree-minus"></i>
+                                    <span class="tree-label">{{ relationship.name }}</span>
+                                </span>
+                            </div>
+                            <span ng-if="!relationship.ipvodVisualMenus.length" class="tree-item-name">
+                                <i class="ace-icon fa fa-circle"></i>
+                                <span class="tree-label">{{ relationship.name }}</span>
+                            </span>
+                            
+                            <ul class="tree-branch-children" ng-if="relationship.ipvodVisualMenus.length">
+                                <li 
+                                    class="tree-open"
+                                    ng-class="{'tree-branch': relationship.ipvodVisualMenus.length, 'tree-item': !relationship.ipvodVisualMenus.length}"
+                                    data-template="treebranch"
+                                    role="treeitem"
+                                    ng-click="toggleItemVisibility($event)"
+                                    ng-repeat="relationship in relationship.ipvodVisualMenus" 
+                                    ng-include="'list-item.html'"></li>
+                            </ul>
+                        </script>
+                        <ul ng-if="relationships.length" class="tree" role="tree">
+                            <li class="tree-branch tree-open" 
+                                ng-click="toggleItemVisibility($event)"
+                                ng-repeat="relationship in relationships" 
+                                ng-include="'list-item.html'"></li>
+                        </ul>
+                        <div ng-if="!relationships.length" class="alert alert-info">
+                            <i class="fa fa-info-circle"></i>
+                            O Asset não possui relacionamentos.
+                        </div>
+                    </div>
+                    <div id="asset-history-tab" ng-class="{active: tab === 5}" class="tab-pane">
+                        <h5 class="green">Histórico de Alterações</h5>
+						<table class="table">
+							<tr ng-repeat="history in assetHistory">
+								<td width="70%">{{history.user.username}}</td>
+								<td style="text-align:right">{{history.changedAt | date:'yyyy-MM-dd HH:mm'}}</td>
+								<td style="text-align:right">									
+									
+									<span data-toggle="modal" 
+										ng-click="openDiff(history)" 
+										data-history="{{ history }}" 
+										data-target="#compareModal" 
+										title="Comparar" 
+										class="btn btn-minier btn-light ace-icon fa fa-columns" 
+										aria-hidden="true">
+									</span>
+									
+								</td>
+							</tr>
+						</table>
+                        
+                    </div>
+                </div>
+                <div class="alert alert-warning clearfix" ng-show="temp.scheduleId != 0  && temp.publishDate != null" style="margin-top: 20px;">
+                	<div class="col-md-6">
+	                	ALTERAÇÃO AGENDADA PARA DIA {{temp.publishDate | date:"dd/MM/yyyy"}}
+                	</div>
+                </div>
+                <div class="clearfix form-actions">
+                    <div class="col-md-12">
+                        <button ng-click="updateAsset(asset)" type="submit" class="btn btn-primary" >
+                            <i class="ace-icon fa fa-check bigger-110"></i> Publicar
+                        </button>
+<!--                         <button data-target="#confirmModal" data-toggle="modal" class="btn btn-primary" > -->
+<!--                             <i class="ace-icon fa fa-check bigger-110"></i> Salvar -->
+<!--                         </button> -->
+<!--                         <button ng-click="cancelTempAsset(asset)" type="submit" class="btn btn-primary" ng-show="temp != null && temp.scheduleId > 0"> -->
+<!--                             <i class="ace-icon fa fa-check bigger-110"></i> Cancelar Alteração não publicada -->
+<!--                         </button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade" id="compareModal" tabindex="-1" role="dialog" aria-labelledby="compareModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+	<div class="modal-content">
+	  <div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title" id="compareModalLabel">Alterações de <strong>{{dialogUser}}</strong> em <strong>{{dialogDate | date:'yyyy-MM-dd HH:mm'}}</strong></h4>
+	  </div>
+	  <div class="modal-body" id="compareModalBody">
+					  
+		<table style="font-size:11px">
+			<thead>
+				<th></th>
+				<th style="padding-left:10px; padding-bottom:5px; border-bottom:0px solid #C0C0C0; font-size:12px">Antigo Valor</th>
+				<th style="padding-left:10px; padding-bottom:5px; border-bottom:0px solid #C0C0C0; font-size:12px">Novo Valor</th>
+			</thead>
+			<tbody>
+				<tr ng-repeat="d in diff" style="{{d.isDiferent ? 'color:red' : ''}}">
+					<td width="120" style="vertical-align:top; text-align:right; padding-right:10px">{{d.prop}}</td>
+					<td width="315" style="vertical-align:top; border-left:1px solid #C0C0C0; padding-left:10px">{{d.oldValue}}</td>
+					<td width="315" style="vertical-align:top; padding-left:10px">{{d.newValue}}</td>
+				
+				</tr>
+			</tbody>
+		</table>
+
+	  </div>
+	  <div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+	  </div>
+	</div>
+  </div>
+</div>
+<!-- Modal Fim -->
+<!--  Modal  -->
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+	<div class="modal-content">
+	  <div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title" id="confirmModalLabel">Salvar alteração?</strong></h4>
+	  </div>
+	  <div class="modal-body" id="confirmModalBody">
+	  		Caso deseje agendar a publicação insira a data abaixo:
+			<input class="form-control" type="date" id="asset-info-licensing-start" ng-model="temp.publishDate">  
+	  </div>
+	  <div class="modal-footer">
+	 	<button ng-click="saveTempAsset(asset)" class="btn btn-primary" data-dismiss="modal">
+            <i class="ace-icon fa fa-check bigger-110"></i> Salvar
+        </button>
+	  </div>
+	</div>
+	
+  </div>
+</div>
+<!-- Modal Fim --> 
+<!--  Modal  -->
+<div class="modal fade" id="imgModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+	<div class="modal-content">
+	  <div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title" id="confirmModalLabel">Alterar Imagem</strong></h4>
+	  </div>
+	  <div class="modal-body" id="confirmModalBody">
+			Selecione o arquivo (.JPG) : 
+			<input type="file" name="uploadedFile" accept=".jpg" ng-model="imgFile" file-model="myFile"/>
+	  </div>
+	  <div class="modal-footer">
+	 	<button ng-click="uploadFile()" class="btn btn-primary" data-dismiss="modal">
+            <i class="ace-icon fa fa-check bigger-110"></i> Salvar
+        </button>
+	  </div>
+	</div>
+	
+  </div>
+</div>
+<!-- Modal Fim --> 
+	
+					

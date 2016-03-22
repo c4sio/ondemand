@@ -1,0 +1,318 @@
+<div class="page-header">
+    <h1>
+        Categorização
+        <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            conteúdo em finalizado
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12 dataTables_wrapper">
+        <div class="row">
+            <div class="col-xs-3 form-inline">
+                <label class="block">
+                    Mostrar
+                    <select
+                            ng-model="form.visibleRows"
+                            ng-change="loadData()"
+                            ng-disabled="form.visibleRows > dataList.length"
+                            class="form-control input-sm">
+                        <option ng-repeat="row in form.showRows"
+                                ng-selected="form.visibleRows === row"
+                                value="{{ row }}"
+                                >{{ row }}</option>
+                    </select>
+                    registros (total: {{ totalRows }})
+                </label>
+            </div>
+            <div class="col-xs-2 form-inline">
+            	<button class="btn btn-sm btn-warning" type="button" data-toggle="modal" data-target="#newMenu" >
+                    <i class="fa fa-plus-circle"></i> Criar novo Menu
+                </button>
+           	</div>
+            <div class="pull-right">
+                <form class="form-search form-inline"
+                    name="search"
+                    ng-submit="searchBar(form.search, asset.billingId, asset.ipvodContentProvider.providerId)">
+
+                    <div class="input-group">
+                        <input class="form-control" placeholder="Billing ID" type="text" ng-model="asset.billingId">
+                    </div>
+
+                    <div class="input-group">
+                        <select
+                                name="role"
+                                id="role"
+                                ng-model="asset.ipvodContentProvider"
+                                ng-options="contentProvider.providerId for contentProvider in contentProviders"
+                                class="form-control">
+                            <option value="">Provider</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <input class="form-control" type="text" ng-model="form.search" placeholder="Title">
+                        <span class="input-group-btn">
+                            <button title="buscar" class="btn btn-sm btn-success" type="submit">
+                                <i class="ace-icon fa fa-search bigger-110"></i>
+                            </button>
+                        </span>
+                        <span class="input-group-btn" ng-hide="!hasPreviousFilterParams">
+                            <button title="remover busca" class="btn btn-sm btn-danger" type="button" ng-click="clearFilterParams()">
+                                <i class="ace-icon fa fa-search-minus bigger-110"></i>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- DataList -->
+        <div ng-if="loading" class="alert alert-info no-margin">
+            <i class="fa fa-cog fa-spin"></i> Carregando...
+        </div>
+
+        <table
+            ng-if="dataList.length"
+            ng-hide="loading"
+            class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+<!--                     <th width="10%" class="text-left"> -->
+<!-- 	                    <a href="#" data-sort="priority" ng-click="sort($event)">Prioridade</a> -->
+<!-- 						Caret -->
+<!-- 	                    <span ng-show="orderByField === 'priority'"> -->
+<!-- 	                        <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span> -->
+<!-- 	                        <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span> -->
+<!-- 	                    </span> -->
+<!-- 	                    End:: Caret -->
+<!-- 	                </th> -->
+                    <th width="30%" class="text-left">                        
+                        <a href="#" data-sort="assetTitle" ng-click="sort($event)">Asset</a>
+                        <!-- Caret -->
+                        <span ng-show="orderByField === 'assetTitle'">
+                            <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                            <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                        </span>
+                        <!-- End:: Caret -->
+                    </th>
+                    <th width="20%" class="text-left">
+                        <a href="#" data-sort="categoryDescription" ng-click="sort($event)">Menus</a>
+                    </th>               
+                    <th width="20%" class="text-left">
+                        <a href="#" data-sort="categoryDescription" ng-click="sort($event)">Categoria</a>
+                        <!-- Caret -->
+                        <span ng-show="orderByField === 'categoryDescription'">
+                            <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                            <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                        </span>
+                        <!-- End:: Caret -->
+                    </th>
+                    <th width="10%" class="text-left">
+                        <a href="#" data-sort="language" ng-click="sort($event)">Idioma</a>
+                        <!-- Caret -->
+                        <span ng-show="orderByField === 'language'">
+                            <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                            <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                        </span>
+                        <!-- End:: Caret -->
+                    </th>
+                    <th width="10%" class="text-left">
+                        <a href="#" data-sort="billingId" ng-click="sort($event)">Billing ID</a>
+                         <!-- Caret -->
+                        <span ng-show="orderByField === 'billingId'">
+                            <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                            <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                        </span>
+                        <!-- End:: Caret -->
+                    </th>
+                    <th width="5%" class="text-left">
+                        <a href="#" data-sort="price" ng-click="sort($event)">Preço</a>
+                         <!-- Caret -->
+                        <span ng-show="orderByField === 'price'">
+                            <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                            <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                        </span>
+                        <!-- End:: Caret -->
+                    </th>
+                    <th width="5%" class="text-left">
+                        <a href="#" data-sort="dtInsertIngest" ng-click="sort($event)">Última atualização</a>
+                        <!-- Caret -->
+                        <span ng-show="orderByField === 'dtInsertIngest'">
+                            <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                            <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                        </span>
+                        <!-- End:: Caret -->
+                    </th>
+                     <th width="5%" class="text-left">
+                     	<a href="#" >Finalizar revisão</a>
+                    </th>	
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="ingestao in dataList | orderBy:orderByField:reverseSort">
+<!--                     <td class="text-center"> -->
+<!-- 						<span ng-show="ingestao.priority == 0"><i class="fa fa-arrow-up red" data-toggle="tooltip" data-placement="top" tooltip="Alta"></i></span> -->
+<!-- 						<span ng-show="ingestao.priority >= 1 && ingestao.priority < 3"><i class="fa fa-arrow-up green" data-toggle="tooltip" data-placement="top" tooltip="Média"></i></span> -->
+<!-- 						<span ng-show="ingestao.priority >= 3"><i class="fa fa-arrow-up fa-rotate-180 orange2" data-toggle="tooltip" data-placement="top" tooltip="Baixa"></i></span> -->
+<!-- 					</td> -->
+                    <td ><i class="fa fa-film fa-fw"></i> <a href="#/conteudo/ingestao/categorizacao?asset={{ ingestao.assetId }}">{{ ingestao.assetTitle }}</a></td>                    
+                    <td>
+                    <ui-select
+                        multiple
+                        ng-disabled="disabled"
+                        ng-model="ingestao.ipvodVisualMenu"
+                        on-select="onSelectMenu($item.menuId, ingestao.assetId)"
+                        on-remove="onRemoveMenu($item.menuId, ingestao.assetId)">
+                        <ui-select-match placeholder="Selecione menus">{{ $item.breadcrumbs }}</ui-select-match>
+                        <ui-select-choices repeat="menu in menus | filter: $select.search">
+                            {{ menu.breadcrumbs }}
+                        </ui-select-choices>
+                    </ui-select>
+                    </td>
+                    <td style="{{ingestIdEdit == ingestao.idIngest ? 'padding:2px' : ''}}">
+
+                        <div ng-show="ingestIdEdit == ingestao.idIngest" class="input-group">
+                            <select id="{{ 'select_' + ingestao.idIngest }}" class="form-control">
+                                <option ng-repeat="category in categories" value="{{category.id}}" ng-selected="ingestao.categoryId == category.id">{{category.text}}</option>
+                            </select>
+                            <span class="input-group-btn">
+                                <button class="btn btn-sm btn-success" tooltip="Salvar" ng-click="updateCategory(ingestao.idIngest)"> <i class="fa fa-check"></i> </button>
+                                <button class="btn btn-sm btn-danger" tooltip="Cancelar" ng-click="setIngestEdit(null)"> <i class="fa fa-times"></i> </button>
+                            </span>
+                        </div>
+
+                        <div ng-show="ingestIdEdit != ingestao.idIngest">
+                            <button class="btn btn-xs btn-primary btn-label btn-label-icon-right" tooltip="Editar"
+                                ng-click="setIngestEdit(ingestao.idIngest, ingestao.assetId)">
+                                <span id="{{'text_' + ingestao.idIngest}}"> {{ ingestao.categoryDescription }} </span>
+                                <i class="fa fa-edit"></i>
+                            </button>
+                        </div>
+                    </td>
+                    <td >{{ ingestao.language }}</td>
+                    <td >
+                    	<span id="{{ 'billingId_' + ingestao.idIngest }}" strip-br="true" contenteditable="true" ng-model="ingestao.billingId" ng-focus="focusBillingId(ingestao.idIngest)"></span>
+	                    <span class="input-group-btn" ng-show="{{ 'showBillingId' + ingestao.idIngest }}">
+	                        <button class="btn btn-sm btn-success" tooltip="Salvar" ng-click="updateBillingId(ingestao.idIngest, ingestao.assetId, ingestao.billingId)"> <i class="fa fa-check"></i> </button>
+	                        <button class="btn btn-sm btn-danger" tooltip="Cancelar" ng-click="blurBillingId(ingestao.idIngest)"> <i class="fa fa-times"></i> </button>
+	                    </span>
+                    </td>
+                    <td >
+                    	<span id="{{ 'price_' + ingestao.idIngest }}" strip-br="true" contenteditable="true" ng-model="ingestao.price" ng-focus="focusPrice(ingestao.idIngest)"></span>
+	                    <span class="input-group-btn" ng-show="{{ 'showPrice' + ingestao.idIngest }}">
+	                        <button class="btn btn-sm btn-success" tooltip="Salvar" ng-click="updatePrice(ingestao.idIngest, ingestao.assetId, ingestao.price)"> <i class="fa fa-check"></i> </button>
+	                        <button class="btn btn-sm btn-danger" tooltip="Cancelar" ng-click="blurPrice(ingestao.idIngest)"> <i class="fa fa-times"></i> </button>
+	                    </span>
+                    </td>
+                    <td >{{ ingestao.dtChangeIngest }}</td>
+                    <td>  
+                    	<button class="btn btn-sm btn-success" tooltip="Finalizar Revisão" ng-click="selectIngestion(ingestao)" data-toggle="modal" data-target="#confirmFinishRevision"> <i class="fa fa-check"></i> </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Empty DataList -->
+        <div ng-if="!dataList.length && !loading" class="alert alert-info no-margin">
+            <i class="fa fa-info-circle"></i> Nenhum registro a visualizar
+        </div>
+        <!-- end:: Empty DataList -->
+
+        <div class="row">
+            <div class="col-xs-6 pull-right dataTables_paginate paging_simple_numbers">
+                <paginator
+                    paginator-list-data="dataList"
+                    paginator-list-visible-rows="dataListVisibleRows"
+                    paginator-current-page="assetsPaginatorCurrentPage"
+                    paginator-offset="assetsPaginatorOffset"
+                    paginator-total-pages="totalPages"
+                    paginator-control-on-click="onPaginatorControlClick"
+                    paginator-page-button-on-click="loadData"
+                    ></paginator>
+            </div>
+        </div>
+    </div></div>
+<!--  Modal  -->
+<div class="modal fade" id="newMenu" tabindex="-1" role="dialog" aria-labelledby="newMenuLabel" aria-hidden="true" width="300px">
+  <div class="modal-dialog">
+	<div class="modal-content">
+	  <div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" ng-click="clearMenu()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title" id="confirmModalLabel">Novo Menu</strong></h4>
+	  </div>
+        <div class="modal-body">
+       	 	<form name="menuForm" novalidate ng-submit="sendMenu()">
+	        	<fieldset>
+	                <div class="form-group" ng-class="{ 'has-error' : menuForm.name.$invalid && !menuForm.name.$pristine }">
+	                    <label class="control-label" for="menuName">Nome do Menu:</label>
+	                    <input ng-required="true" type="text" name="menuName" ng-model="menuForm.name" class="form-control" ng-maxlength="50" maxlength="50">
+	                    <p ng-show="menuForm.name.$invalid && !menuForm.name.$pristine" class="help-inline no-padding">Campo obrigatório</p>
+	                </div>
+	                 
+					<div class="form-group">
+	                    <label class="control-label" for="rating">Rating:</label>
+	                    <select name="rating" ng-model="menuForm.ipvodRating" ng-options="rating.description for rating in ratingList" class="form-control" ng-change="validateAdult()" ng-required="true" ></select>
+	                    <p ng-show="menuForm.ipvodRating.$invalid && !menuForm.ipvodRating.$pristine" class="help-inline no-padding">Campo obrigatório</p>
+	                </div>
+	
+	                <div class="form-group" ng-class="{ 'has-error' : menuForm.avaliableSince.$invalid && !menuForm.avaliableSince.$pristine }">
+	                    <label class="control-label" for="avaliableSince">Disponível a partir de:</label>
+	                    <input name="avaliableSince" type="date" ng-change="validateAvaliableSince($event)" class="form-control" ng-model="avaliableSince">
+	                    <p ng-show="menuForm.avaliableSince.$invalid" class="help-inline no-padding">A Data não pode ser maior que a data fim</p>
+	                </div>
+	
+	                <div class="form-group" ng-class="{ 'has-error' : menuForm.avaliableUntil.$invalid && !menuForm.avaliableUntil.$pristine }">
+	                    <label class="control-label" for="avaliableUntil">Disponível até:</label>
+	                    <input name="avaliableUntil" type="date" ng-change="validateAvaliableUntil($event)" class="form-control" ng-model="avaliableUntil">
+	                    <p ng-show="menuForm.avaliableUntil.$invalid" class="help-inline no-padding">A Data não pode ser menor que a data inicial</p>
+	                </div>
+	
+					<div class="form-group" ng-class="{ 'has-error' : menuForm.ipvodVisualMenu.$invalid && !menuForm.ipvodVisualMenu.$pristine }">
+	                    <label class="control-label" for="menuForm.ipvodVisualMenu">Menu pai:</label>
+	                    <ui-select ng-model="menuForm.ipvodVisualMenu" name="menuForm.ipvodVisualMenu" ng-required="true">
+	                        <ui-select-match placeholder="Selecione menus">{{$select.selected.breadcrumbs}}</ui-select-match>
+	                        <ui-select-choices repeat="menu in menus | filter: $select.search">
+	                            {{ menu.breadcrumbs }}
+	                        </ui-select-choices>
+	                    </ui-select>
+	                    <p ng-show="menuForm.ipvodVisualMenu.$invalid" class="help-inline no-padding">Um menu pai deve ser selecionado</p>
+	                </div>
+	    		</fieldset>
+    		</form>
+    	</div>
+        <div class="modal-footer">
+            <button ng-disabled="menuForm.$invalid" class="btn btn-primary" type="submit" ng-click="sendMenu()" data-dismiss="modal">OK</button>
+            <button class="btn btn-warning" data-dismiss="modal" ng-click="clearMenu()">Cancel</button>
+        </div>
+	</div>
+	
+  </div>
+</div>
+<!-- Modal Fim --> 
+<div class="modal fade" id="confirmFinishRevision" tabindex="-1" role="dialog" aria-labelledby="confirmFinishRevisionLabel" aria-hidden="true" width="300px">
+  <div class="modal-dialog">
+	<div class="modal-content">
+	  <div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" ng-click="clearMenu()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title" id="confirmModalLabel">Finalizar revisão</strong></h4>
+	  </div>
+        <div class="modal-body">
+       	 	<form name="menuForm" novalidate ng-submit="sendMenu()">
+	        	<fieldset>
+					Deseja finalizar a revisão do asset
+					<br>
+					{{selectedIngest.assetId}}  - {{selectedIngest.assetTitle}}?
+	    		</fieldset>
+    		</form>
+    	</div>
+        <div class="modal-footer">
+            <button ng-disabled="menuForm.$invalid" class="btn btn-primary" type="submit" ng-click="finishRevision()" data-dismiss="modal">Sim</button>
+            <button class="btn btn-warning" data-dismiss="modal" ng-click="selectIngestion(null)">Não</button>
+        </div>
+	</div>
+	
+  </div>
+</div>

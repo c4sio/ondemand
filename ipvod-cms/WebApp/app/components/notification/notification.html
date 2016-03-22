@@ -1,0 +1,7 @@
+<div class="notification">
+  <div class="notification-header" ng-click="toggleDescription()">
+    <i class="icon {{ icon }}" ng-if="icon"></i>
+    <div class="title">{{ title }}</div>
+  </div>
+  <div ng-if="description" ng-show="showDescription" class="description">{{  description }}</div>
+</div>

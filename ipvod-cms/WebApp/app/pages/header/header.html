@@ -1,0 +1,168 @@
+<script type="text/javascript">
+    try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+</script>
+<div ng-controller="HeaderCtrl">
+    <div id="navbar-container" class="navbar-container">
+        <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler">
+            <span class="sr-only">Toggle sidebar</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <div class="navbar-header pull-left">
+            <a class="navbar-brand" href="javascript: void(0);">
+                    <img src="assets/img/logo-gvt.png" alt="GVT">
+                    IPVOD Admin
+            </a>
+        </div>
+
+        <div class="navbar-buttons navbar-header pull-right" role="navigation">
+            <ul class="nav ace-nav">
+               
+                <!-- Tasks --> 
+                <!--li class="grey">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="javascript: void(0)">
+                        <i class="ace-icon fa fa-tasks"></i>
+                        <span class="badge badge-grey">0</span>
+                    </a>
+
+                    <ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+
+                        <li class="dropdown-header">
+                            <i class="ace-icon fa fa-check"></i>
+                            Nenhuma tarefa pendente
+                        </li>
+
+                        <li class="dropdown-footer">
+                            <a href="javascript: void(0);">
+                                Ver detalhes das tarefas
+                                <i class="ace-icon fa fa-arrow-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </li-->
+                <!-- End:: Tasks -->
+    
+                <!-- Begin:: Notificações -->
+                <li class="purple with-remove-action with-badge">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="javascript: void(0);">
+                        <i id="notification-icon" class="ace-icon fa fa-bell" ng-class="{'icon-animated-bell': notifications.length}"></i>
+                        <span class="badge badge-important">{{ notifications.length }}</span>
+                    </a>
+
+                    <ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close"
+                        ng-class="{'navbar-green': !notifications.length}">
+                        <li id="header-notifications-holder" ng-if="notifications.length" class="dropdown-header">
+                            <i class="ace-icon fa fa-bell"></i>
+                            {{ notifications.length }} 
+                            <ng-pluralize count="notifications.length" offset="2"
+                                when="{'1': 'Notificação',
+                                     'other': 'Notificações'}">
+                            </ng-pluralize>
+                        </li>
+                        <li ng-if="!notifications || !notifications.length" class="dropdown-header">
+                            <i class="ace-icon fa fa-check"></i> Sem novas notificações
+                        </li> 
+                        <li id="not-{{ notification.notificationId }}" ng-repeat="notification in notifications"> 
+                            <a href="#/notification/{{ notification.notificationId }}" class="ng-binding">
+                                <div class="dropdown-menu-item clearfix">
+                                    <span class="pull-left">                                        
+                                        <i class="btn btn-xs no-hover btn-pink fa {{ notification.icon }} dropdown-icon"></i>
+                                        <span class="dropdown-text"> 
+                                            {{ notification.title }} 
+                                            <span ng-if="notification.items" class="badge badge-info">
+                                                +{{ notification.items }}
+                                            </span>
+                                        </span>
+                                    </span>
+                                </div>
+                            </a>
+                            <span ng-click="removeNotification($event)" class="msg-remove">
+                                <i class="fa fa-times-circle"></i>
+                            </span>
+                        </li>
+                    </ul>
+                </li>
+                <!-- End:: Notificações -->
+
+                <!-- Begin:: Mensagens -->
+                <!--li class="green">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="javascript: void(0);">
+                        <i id="messages-icon" class="ace-icon fa fa-envelope" ng-class="{'icon-animated-vertical': messages.length}"></i>
+                        <span class="badge badge-success">{{ messages.length }}</span>
+                    </a>
+
+                    <ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close"
+                        ng-class="{'navbar-green': !messages.length}">
+                        <li id="header-messages-holder" ng-if="messages.length" class="dropdown-header">
+                            <i class="ace-icon fa fa-envelope-o"></i>
+                            {{ messages.length }} 
+                            <ng-pluralize count="messages.length" offset="2"
+                                when="{'1': 'Mensagem',
+                                     'other': 'Mensagens'}">
+                            </ng-pluralize>
+                        </li>
+                        <li ng-if="!messages || !messages.length" class="dropdown-header">
+                            <i class="ace-icon fa fa-check"></i> Sem novas mensagens
+                        </li>
+                        <li id="msg-{{ message.id }}" ng-repeat="message in messages"> 
+                            <a>
+                                <img src="assets/img/user.png" class="dropdown-photo" alt="">
+                                <span class="msg-body">
+                                    <span class="msg-title">{{ message.msg }}</span>
+                                    <span class="msg-time">
+                                        <i class="ace-icon fa fa-clock-o"></i>
+                                        <span>1:33 pm</span>
+                                    </span>
+                                </span> 
+                            </a>
+                            <span ng-click="removeMessage($event)" class="msg-remove">
+                                <i class="fa fa-times-circle"></i>
+                            </span>
+                        </li>
+                    </ul>
+                </li-->
+                <!-- End:: Messages -->
+
+                <!-- User Box -->
+                <li class="light-blue">
+                    <a data-toggle="dropdown" href="javascript: void(0);" class="dropdown-toggle">
+                        <img class="nav-user-photo" width="40" ng-src="assets/img/{{user.picture}}.png" alt="{{user.role}}">
+                        <span class="user-info">
+                            <small>Bem vindo,</small> {{user.username}}
+                        </span>
+
+                        <i class="ace-icon fa fa-caret-down"></i>
+                    </a>
+
+                    <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                        <!-- <li>
+                            <a href="javascript: void(0);">
+                                <i class="ace-icon fa fa-cog"></i>
+                                Configurações
+                            </a>
+                        </li> --> 
+
+                        <li>
+                            <a ng-href="#/usuarios/{{user.userSysId}}/editar">
+                                <i class="ace-icon fa fa-user"></i>
+                                Perfil
+                            </a>
+                        </li>
+
+                        <li class="divider"></li>
+
+                        <li>
+                            <a href="javascript: void(0);" ng-click="logout()">
+                                <i class="ace-icon fa fa-power-off"></i>
+                                Sair
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- End:: User Box -->
+
+            </ul>
+        </div>
+    </div>
+</div>

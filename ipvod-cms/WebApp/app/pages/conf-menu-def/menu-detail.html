@@ -1,0 +1,394 @@
+<div class="page-content" >
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <div class="page-header">
+            <h1>
+                Definição do menu 
+                <small> 
+                    <i class="ace-icon fa fa-angle-double-right"></i> 
+                    Ordenação e renomeação
+                </small>
+            </h1>
+        </div>
+        <!-- /.page-header -->
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-holder">
+                    <!-- Back button -->
+                    <span class="back-button" title="voltar">
+                        <a href="javascript: history.back();"><i class="fa fa-arrow-circle-left"></i></a>            
+                    </span>
+                    <!-- end:: Back Button-->
+
+                    <!-- Edit Form-->
+                    <div ng-hide="!menutreedata.length" class="col-xs-12">
+
+                        <div class="widget-box widget-box-collapsible" ng-class="{'collapsed': editMenuCollapsed}" ng-hide="menutreedata[0].permanentMenu">
+                            <div class="widget-header">
+                                <h4 class="widget-title">Editar Item</h4>
+                                <div class="widget-toolbar">
+                                    <a href="javascript: void(0);" ng-click="toggleEditMenu()">
+                                        <i class="ace-icon fa fa-chevron-up"></i>
+                                        <i class="ace-icon fa fa-chevron-down"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <form name="menuForm">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group" ng-class="{ 'has-error' : menuForm.menuName.$invalid && !menuForm.menuName.$pristine }">
+                                                    <label for="menuName">Nome Menu</label>
+                                                    <input id="menuName" ng-required="true" type="text" name="menuName" ng-model="menutreedata[0].name" class="form-control" maxlength="50">
+                                                    <p ng-show="menuForm.menuName.$invalid && !menuForm.menuName.$pristine" class="help-inline no-padding">Campo obrigatório</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label for="rating">Rating:</label>
+                                                    <select id="rating" name="rating" ng-model="menutreedata[0].ipvodRating" 
+                                                        ng-options="rating.description for rating in ratingList track by rating.ratingLevel" 
+                                                        class="form-control"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <div class="form-group" ng-class="{ 'has-error' : menuForm.avaliableSince.$invalid && !menuForm.avaliableSince.$pristine }">
+                                                    <label for="avaliableSince">Disponível a partir de:</label>
+                                                    <input id="avaliableSince" name="avaliableSince" type="date" ng-change="validateAvaliableSince($event)" class="form-control" ng-model="menutreedata[0].avaliableSince">
+                                                    <p ng-show="menuForm.avaliableSince.$invalid" class="help-inline no-padding">A Data não pode ser maior que a data fim</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group" ng-class="{ 'has-error' : menuForm.avaliableUntil.$invalid && !menuForm.avaliableUntil.$pristine }">
+                                                    <label for="avaliableUntil">Disponível até:</label>
+                                                    <input name="avaliableUntil" id="avaliableUntil" type="date" ng-change="validateAvaliableUntil($event)" class="form-control" ng-model="menutreedata[0].avaliableUntil">
+                                                    <p ng-show="menuForm.avaliableUntil.$invalid" class="help-inline no-padding">A Data não pode ser menor que a data inicial</p>
+                                                </div>        
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" class="ace" ng-checked="menutreedata[0].active == 1" ng-click="toggleMenu(menutreedata[0])">
+                                                            <span class="lbl">Menu Ativo</span>
+                                                        </label>
+                                                    </div>
+                                <!--                     ng-model="menutreedata[0].active" -->
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label for="packages">Pacotes:</label>
+                                                    <select id="packages" class="form-control" multiple="multiple" name="packages" ng-options="package.description for package in packages track by package.packageId" ng-model="menutreedata[0].ipvodPackages" ></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- end:: Widget Main -->
+                            </div>
+                        </div>
+                        <!-- end:: Edit Form -->
+
+                    <div class="space-10"></div>
+
+                    <div ng-if="!menutreedata.length" class="col-xs-12">
+                        <div class="alert alert-info">
+                            <div class="fa fa-circle-o-notch fa-spin"></div>
+                            Carregando...
+                        </div>
+                    </div>
+
+                    <!-- PAGE CONTENT BEGINS -->
+                    <div class="row">
+                        <!-- tree-col -->
+                        <div id="tree-col" class="col-xs-6">
+                             <script type="text/ng-template" id="nodes_menu.html">
+                                <div ui-tree-handle class="tree-node tree-node-content" ng-class="{'disabled':node.active == 0}" data-nodrag>
+
+                                    <i class="bigger-130 ace-icon fa fa-folder grey" ng-hide="node.name == undefined"></i>
+                                    {{node.name}}
+
+                                    <button type="button" data-nodrag tooltip="Novo Sub-item" class="itemActionBar" ng-click="newSubItem(this)" >
+                                        <i class="icon fa fa-file-o"></i> 
+                                    </button>
+                                </div>
+                                <ol ui-tree-nodes ng-model="node.ipvodVisualMenus" ng-hide="collapsed">
+                                    <li ng-repeat="node in node.ipvodVisualMenus" ui-tree-node ng-include="'nodes_menu_child.html'"></li>
+                                </ol>
+                                <ol ui-tree-nodes ng-model="node.ipvodAssets" ng-class="{'disabled':node.active == 0}" ng-hide="collapsed">
+                                    <li ng-repeat="node in node.ipvodAssets" ui-tree-node ng-include="'nodes_asset.html'"></li> 
+                                </ol> 
+                            </script> 
+                            <script type="text/ng-template" id="nodes_menu_child.html">
+                                <div ui-tree-handle class="tree-node tree-node-content" ng-class="{'disabled':node.active == 0}" >
+
+                                    <i class="bigger-130 ace-icon fa fa-folder grey" ng-hide="node.name == undefined"></i>
+                                    {{node.name}}
+            						
+                                    <button type="button" data-nodrag class="itemActionBar" ng-click="removeMenu(this);" tooltip="Remover" ng-hide="node.permanentMenu">
+                                        <i class="icon fa fa-trash-o"></i>
+                                    </button>
+            						<button type="button" data-nodrag class="itemActionBar" ng-click="editMenu(node.menuId)" tooltip="Editar Menu" ng-hide="node.menuId==null">
+                                        <i class="icon fa fa-pencil"></i>
+                                    </button>
+
+                                </div>
+                            </script>
+                            <script type="text/ng-template" id="nodes_asset.html"> 
+                                <div ui-tree-handle class="tree-node tree-node-content" >
+
+                                    <i class="bigger-130 ace-icon fa fa-film grey"></i>
+                                    {{ node.assetId }} - {{ node.title }}
+									<i class="bigger-130 ace-icon fa fa-exclamation-circle" ng-show="node.licenseWindowEnd < today" style="color: red" title="Asset com data de licença vencida" data-nodrag></i>
+
+                                    <dt ng-hide="node.season == null" style="margin-left: 20px;">
+                                        Temporada: {{ node.season }} Episódio: {{ node.episode }}
+                                    </dt>
+
+                                    <button type="button" data-nodrag class="itemActionBar" ng-click="removie(this)" tooltip="Remover">
+                                        <i class="icon fa fa-trash-o"></i>
+                                    </button>
+                                    <button type="button" data-nodrag class="itemActionBar" ng-click="editAsset(this, node.assetId)" tooltip="Editar" >
+                                        <i class="icon fa fa-pencil"></i>
+                                    </button>
+                                    <!-- scheduled -->
+                                    <button ng-hide="!node.scheduled" data-nodrag tooltip="Agendado" class="itemActionBar cursor-default">
+                                        <i class="fa fa-clock-o text-warning"></i>
+                                    </button>
+                                    <!-- end:: scheduled -->
+                                </div>
+                            </script>
+                            <div ui-tree="treeOptions" id="tree-root">
+                                <ol ui-tree-nodes ng-model="menutreedata">
+                                    <li ng-repeat="node in menutreedata" ui-tree-node ng-include="'nodes_menu.html'" draggable="false"></li>
+                                </ol>
+                            </div>
+
+                            <div class="clearfix form-actions">
+                                <button ng-click="save()" type="submit" class="width-35 btn btn-sm btn-primary">
+                                    <i class="ace-icon fa fa-check"></i> 
+                                    <span class="bigger-110">Enviar</span>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- end:: tree-col -->
+
+                        <!-- Search Form -->
+                        <div id="search-form-col" class="col-xs-6">
+                            <div id="conf-menu-filter" class="widget-box widget-color-blue gvt-search-form">
+                                <div class="widget-header">
+                                    <h5 class="widget-title bigger lighter">
+                                        <i class="fa fa-film"></i> Assets
+                                    </h5>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                       
+                                        <!-- Filtros -->
+                                        <div class="widget-box-collapsible widget-box transparent" ng-class="{'collapsed': filterBoxCollapsed}">
+                                            <div class="widget-header">
+                                                <h4 class="widget-title lighter">
+                                                    <i class="fa fa-filter"></i> Filtrar
+                                                </h4>
+
+                                                <div class="widget-toolbar no-border">
+                                                    <a href="javascript: void(0);" ng-click="toggleFilter()">
+                                                        <i class="ace-icon fa fa-chevron-up"></i>
+                                                        <i class="ace-icon fa fa-chevron-down"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                            <div class="widget-body">
+                                                <div class="widget-main padding-6 no-padding-left no-padding-right">
+                                                    <form 
+                                                        class="form-search" 
+                                                        ng-submit="loadData(1, [{ 'field': 'title', 'op': 'cn', 'data': searchMovie }, { 'field': 'ipvodCategory1.categoryId', 'op': 'eq', 'data': selectComponent.selectedMovieCategories }, { 'field': 'creationDate', 'op': 'ge', 'data': datepickerFrom }, { 'field': 'creationDate', 'op': 'le', 'data': datepickerTo },{ 'field': 'ipvodVisualMenuAsset', 'op': 'nl', 'data': noMenus }])">
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <label for="search-movie-input">Nome do Asset</label>
+                                                                <input type="text" id="search-movie-input" class="form-control search-query" ng-model="searchMovie"/>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-filter">
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label for="categories-list">Categorias</label>
+                                                                        <ui-select 
+                                                                            multiple 
+                                                                            ng-disabled="disabled"
+                                                                            ng-model="selectComponent.selectedMovieCategories">
+                                                                            <ui-select-match
+                                                                                placeholder="Selecione uma categoria">
+                                                                                {{ $item.description }}
+                                                                            </ui-select-match>
+                                                                            <ui-select-choices 
+                                                                                repeat="category in selectComponent.movieCategories | filter: $select.search">
+                                                                                {{ category.description }}
+                                                                            </ui-select-choices>
+                                                                        </ui-select>
+                                                                   </div>
+                                                                </div>
+
+                                                                <div class="col-sm-6">
+                                                                    <label for="date-from">A partir de</label>
+                                                                    <input type="date" 
+                                                                        class="form-control" 
+                                                                        ng-model="datepickerFrom"
+                                                                        max="{{ datepickerMaxDate }}">
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <label for="date-from">Até</label>
+                                                                    <input type="date"
+                                                                        class="form-control" 
+                                                                        ng-model="datepickerTo"
+                                                                        max="{{ datepickerMaxDate }}">
+                                                                </div>
+                                                                <div class="col-sm-12">
+                                                                    <div class="checkbox">
+                                                                        <label>
+                                                                            <input 
+                                                                                class="ace ace-checkbox-2" 
+                                                                                type="checkbox" ng-model="noMenus">
+                                                                            <span class="lbl">
+                                                                                Mostrar apenas os ítens não incluídos nos menus
+                                                                            </span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                           </div>
+                                                        </div>
+
+                                                        <button class="btn btn-success btn-sm" type="submit">
+                                                            <i class="fa fa-search"></i> Buscar
+                                                        </button>
+                                                        <button class="btn btn-sm btn-danger" type="button" ng-click="resetFilters()">Limpar filtro</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End:: Filtros -->
+                                        
+                                        <!-- Pagination Total Rows -->
+                                        <div class="pagination-total-rows">{{ totalRows }} registro(s)</div>
+                                        <!-- end:: Pagination Total Rows -->
+
+                                        <!-- ui-tree -->
+                                        <div ui-tree="treeOptions" id="tree-root1" class="noActionBar">
+                                            <ol ui-tree-nodes ng-model="assettreedata">
+                                                <li ng-repeat="node in assettreedata" ui-tree-node ng-include="'nodes_asset.html'"></li>
+                                            </ol>
+                                            <div ng-if="dataList.length === 0" class="alert alert-info">
+                                                <i class="fa fa-warning"></i> Não há registros a exibir.
+                                            </div>
+                                        </div>
+                                        <!-- end:: ui-tree -->
+
+                                        <!-- Pagination -->
+                                        <paginator 
+                                            paginator-list-data="dataList"
+                                            paginator-list-visible-rows="dataListVisibleRows"
+                                            paginator-current-page="assetsPaginatorCurrentPage"
+                                            paginator-offset="assetsPaginatorOffset"
+                                            paginator-total-pages="totalPages"
+                                            paginator-control-on-click="onPaginatorControlClick"
+                                            paginator-page-button-on-click="loadData"
+                                        ></paginator>
+                                        <!-- end:: Pagination -->
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <!-- end:: tree-col -->
+
+                    <!-- PAGE CONTENT ENDS -->
+                </div>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.page-content-area -->
+</div>
+<!-- /.page-content-->
+
+<!-- Modal Template -->
+<script type="text/ng-template" id="modal-template">
+    <form name="menuForm" novalidate ng-submit="ok()">
+        <div ng-show="modalTitle !== null" class="modal-header">
+            <h3 class="modal-title">{{ modalTitle }}</h3>
+        </div>
+        <div class="modal-body">
+        	<fieldset>
+                <div class="form-group" ng-class="{ 'has-error' : menuForm.menuName.$invalid && !menuForm.menuName.$pristine }">
+                    <label class="control-label" for="menuName">Nome do {{ itemTypeName }}:</label>
+                    <input ng-if="itemType === 'menu'" ng-required="true" type="text" name="menuName" ng-model="name" class="form-control" maxlength="50">
+                    <input ng-if="itemType === 'asset'" ng-required="true" type="text" name="menuName" ng-model="title" class="form-control">
+                    <p ng-show="menuForm.menuName.$invalid && !menuForm.menuName.$pristine" class="help-inline no-padding">Campo obrigatório</p>
+                </div>
+				 <div class="form-group">
+                    <label class="control-label" for="rating">Rating:</label>
+                    <select name="rating" ng-model="ipvodRating" ng-options="rating.description for rating in ratingList" class="form-control" ng-change="validateAdult()"></select>
+                </div>
+
+                <div class="form-group" ng-class="{ 'has-error' : menuForm.avaliableSince.$invalid && !menuForm.avaliableSince.$pristine }">
+                    <label class="control-label" for="avaliableSince">Disponível a partir de:</label>
+                    <input name="avaliableSince" type="date" ng-change="validateAvaliableSince($event)" class="form-control" ng-model="avaliableSince">
+                    <p ng-show="menuForm.avaliableSince.$invalid" class="help-inline no-padding">A Data não pode ser maior que a data fim</p>
+                </div>
+
+                <div class="form-group" ng-class="{ 'has-error' : menuForm.avaliableUntil.$invalid && !menuForm.avaliableUntil.$pristine }">
+                    <label class="control-label" for="avaliableUntil">Disponível até:</label>
+                    <input name="avaliableUntil" type="date" ng-change="validateAvaliableUntil($event)" class="form-control" ng-model="avaliableUntil">
+                    <p ng-show="menuForm.avaliableUntil.$invalid" class="help-inline no-padding">A Data não pode ser menor que a data inicial</p>
+                </div>
+
+    		</fieldset>
+    	</div>
+        <div class="modal-footer">
+            <button ng-disabled="menuForm.$invalid" class="btn btn-primary" type="submit">OK</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+    </form>
+</script>
+<!-- End:: Modal Template -->
+
+<!-- Confirm Modal Template -->
+<script type="text/ng-template" id="modal-confirm-template">
+    <div ng-show="modalTitle !== null" class="modal-header">
+        <h3 class="modal-title">{{ modalTitle }}</h3>
+    </div>
+    <div class="modal-body">
+        <div ng-if="saving">
+            <div class="alert alert-info">
+                <div class="fa fa-cog fa-spin"></div> Salvando...
+            </div>
+        </div>
+        <div ng-if="!saving"> {{ text }} </div>
+    </div>
+    <div class="modal-footer">
+        <button 
+            ng-disabled="{{ saving }}"
+            class="btn btn-primary" ng-click="ok(menu, saving)">OK</button>
+        <button 
+            ng-disabled="{{ saving }}"
+            class="btn btn-warning" ng-click="cancel(saving)">Cancel</button>
+    </div>
+</script>
+<!-- End:: Modal Template -->

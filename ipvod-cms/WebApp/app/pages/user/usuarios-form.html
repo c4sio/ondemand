@@ -1,0 +1,122 @@
+<div class="page-header">
+    <h1>
+        Usuário
+        <small> 
+            <i class="ace-icon fa fa-angle-double-right"></i> 
+            <span ng-show="action === 'cadastrar'">Cadastrar</span>
+            <span ng-show="action === 'editar'">Editar</span>
+        </small>
+    </h1>
+</div>
+<!-- /.page-header -->
+
+<!-- PAGE CONTENT BEGINS -->
+<div class="row">
+    <div class="col-xs-12">
+        <!-- Form Holder -->
+        <div class="form-holder">
+             <!-- Back button -->
+            <span class="back-button" title="voltar">
+                <a href="javascript: history.back();"><i class="fa fa-arrow-circle-left"></i></a>            
+            </span>
+            <!-- End:: Back button -->
+            
+            <form class="form-horizontal" name="form" novalidate ng-submit="submitForm()">
+                <fieldset>
+                    <div class="form-group" ng-class="{ 'has-error' : form.username.$invalid && !form.username.$pristine }">
+                        <div class="col-md-6">
+                            <label class="control-label no-padding-right" for="username">Nome</label>
+                            <input 
+                                name="username" 
+                                id="username" 
+                                ng-model="userForm.username" 
+                                type="text" 
+                                class="form-control" 
+                                ng-required="true" />
+                            <p ng-show="form.username.$invalid && !form.username.$pristine" 
+                                        class="help-inline no-padding">Campo obrigatório</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-class="{ 'has-error' : form.password.$invalid && !form.password.$pristine }">
+                        <div class="col-md-3">
+                            <label class="control-label no-padding-right" for="password">Senha</label>
+                            <input 
+                                name="password" 
+                                id="password" 
+                                ng-model="userForm.password" 
+                                type="password" 
+                                class="form-control" 
+                                ng-required="true" />
+                            <p ng-show="form.password.$invalid && !form.password.$pristine" 
+                                        class="help-inline no-padding">Campo obrigatório</p>
+
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label no-padding-right" for="password-confirm">Repetir Senha</label>
+                            <input 
+                                name="passwordConfirm" 
+                                id="password-confirm" 
+                                ng-model="userForm.passwordConfirm" 
+                                type="password" 
+                                class="form-control" 
+                                ng-required="true" />
+                            <p ng-show="form.passwordConfirm.$invalid && !form.passwordConfirm.$pristine" 
+                                        class="help-inline no-padding">As senhas devem coincidir</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-class="{ 'has-error' : form.email.$invalid && !form.email.$pristine }">
+                        <div class="col-md-6">
+                            <label class="control-label no-padding-right" for="email">E-mail</label>
+                            <input 
+                                name="email" 
+                                id="email" 
+                                ng-model="userForm.email" 
+                                type="email" 
+                                class="form-control" 
+                                ng-required="true" />
+                            <p ng-show="form.email.$invalid && !form.email.$pristine" 
+                                        class="help-inline no-padding">Campo obrigatório</p>
+                            <p ng-show="form.email.$error.email"
+                                class="help-inline no-padding">Formato de email inválido</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-class="{ 'has-error' : form.role.$invalid && !form.role.$pristine }">
+                        <div class="col-md-3">
+                            <label class="control-label no-padding-right" for="role">Perfil</label>
+                            <select 
+                                name="role" 
+                                id="role" 
+                                ng-model="userForm.role" 
+                                ng-required="true"
+                                ng-options="role for role in userRoles" class="form-control"></select> 
+                            <p ng-show="form.role.$invalid && !form.role.$pristine" 
+                                        class="help-inline no-padding">Campo obrigatório</p>
+                        </div>
+                    </div>
+
+                    <div class="space-6"></div>
+
+                    <div class="clearfix form-actions">
+                        <div class="col-md-6">
+                            <button 
+                                ng-disabled="form.$invalid"
+                                type="submit" 
+                                class="btn btn-primary">
+                               <i class="ace-icon fa fa-check bigger-110"></i> Enviar
+                            </button>
+
+                            <button class="btn" type="reset"> 
+                                <i class="ace-icon fa fa-undo bigger-110"></i> Limpar
+                            </button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+
+        </div>
+    </div>
+</div>
+

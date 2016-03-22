@@ -1,0 +1,53 @@
+<nav ng-if="pages.length > 0">
+    <ul class="pagination">
+        <!-- First Page Link -->
+        <li ng-class="{ disabled: paginatorCurrentPage === 1 }">
+            <a 
+                href="javascript: void(0);"
+                ng-click="paginatorControl('first')">
+                <i class="fa fa-fast-backward"></i>
+            </a>
+        </li>
+        <!-- end:: First Page Link -->
+
+        <!-- Previous Page Link -->
+        <li ng-class="{ disabled: paginatorCurrentPage === 1 }">
+            <a 
+                href="javascript: void(0);" 
+                ng-click="paginatorControl('prev')">
+                    <i class="fa fa-backward"></i>
+            </a>
+        </li>
+        <!-- end:: Previous Page Link -->
+
+        <!-- Pages -->
+        <li ng-class="{ active: page.active }" ng-repeat="page in pages">
+            <a 
+                href="javascript: void(0);" 
+                ng-click="paginatorPageButtonOnClick(page.num)">
+                {{ page.num }}
+            </a>
+        </li>
+        <!-- end:: Pages -->
+
+        <!-- Next Page Link -->
+        <li ng-class="{ disabled: paginatorCurrentPage === paginatorLastPage }">
+            <a 
+                href="javascript: void(0);" 
+                ng-click="paginatorControl('next')">
+                    <i class="fa fa-forward"></i>
+            </a>
+        </li>
+        <!-- end:: Next Page Link -->
+
+        <!-- Last Page Link -->
+        <li ng-class="{ disabled: paginatorCurrentPage === paginatorLastPage }">
+           <a 
+               href="javascript: void(0);"
+               ng-click="paginatorControl('last')">
+                   <i class="fa fa-fast-forward"></i>
+           </a>
+        </li>
+        <!-- end:: Last Page Link -->
+    </ul>
+</nav>

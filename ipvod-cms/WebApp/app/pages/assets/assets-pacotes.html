@@ -1,0 +1,200 @@
+<div class="page-header">
+    <h1>
+        Assets 
+        <small> 
+            <i class="ace-icon fa fa-angle-double-right"></i> 
+            <span ng-hide="category">Pacotes</span>
+            <span ng-show="category">{{ package }}</span>
+        </small> 
+    </h1>
+</div>
+<!-- /.page-header -->
+
+<!-- PAGE CONTENT BEGINS -->
+<div class="row">    
+    <div class="col-xs-12 wizard-actions">
+        <a ng-href="#/assets/pacotes/cadastrar" class="btn btn-primary">
+            <i class="fa fa-plus-circle"></i> 
+            Adicionar Pacote
+        </a>
+    </div>
+    <div class="col-xs-12"><div class="space-12"></div></div>
+    
+    <div class="col-xs-12 dataTables_wrapper">
+        <div class="row">
+            <div class="col-xs-6 form-inline">
+                <label class="block">
+                    Mostrar 
+                    <select 
+                        ng-model="form.visibleRows"
+                        ng-change="loadData()" 
+                        ng-disabled="form.visibleRows > dataList.length"
+                        class="form-control input-sm">
+                        <option ng-repeat="row in form.showRows" 
+                            ng-selected="form.visibleRows === row"                            
+                            value="{{ row }}"
+                            >{{ row }}</option>
+                    </select> 
+                    registros (total: {{ totalRows }})
+                </label>
+            </div>
+            <div class="col-xs-4 pull-right">
+                <form 
+                    class="form-search" 
+                    name="search"
+                    ng-submit="searchBar(form.search)"
+                >
+                    <div class="input-group">
+                        <input class="form-control" type="text" ng-model="form.search" placeholder="Buscar">
+                        <span class="input-group-btn">
+                            <button title="buscar" class="btn btn-sm btn-success" type="submit">
+                                <i class="ace-icon fa fa-search bigger-110"></i>
+                            </button>
+                        </span>
+                        <span class="input-group-btn" ng-hide="!hasPreviousFilterParams">
+                            <button title="remover busca" class="btn btn-sm btn-danger" type="button" ng-click="clearFilterParams()">
+                                <i class="ace-icon fa fa-search-minus bigger-110"></i>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <table id="sample-table-1"
+           ng-if="dataList.length !== 0"
+           class="table table-striped table-bordered table-hover dataTable"
+           ng-class="{'table-toolbar-right': listPackages}"
+           >
+            <thead>
+                <tr>
+                    <th ng-if="listPackages">
+                        <a href="#" data-sort="description" ng-click="sort($event)">Nome</a>
+                        <!-- Caret -->
+                        <span ng-show="orderByField === 'description'">
+                            <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                            <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                        </span>
+                        <!-- End:: Caret -->
+                    </th>
+                    <th ng-if="listPackages"></th>
+                    <th ng-if="!listPackages">
+                        <a href="#" data-sort="ipvodAsset.title" ng-click="sort($event)">Título Asset</a>
+                        <!-- Caret -->
+                        <span ng-show="orderByField === 'ipvodAsset.title'">
+                            <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                            <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                        </span>
+                        <!-- End:: Caret -->
+                    </th>
+                    <th ng-if="!listPackages">
+                     	<a href="#" data-sort="price" ng-click="sort($event)">Preço</a>
+                        <!-- Caret -->
+                        <span ng-show="orderByField === 'price'">
+                            <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                            <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                        </span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in dataList | orderBy:orderByField:reverseSort">
+                    <td>
+                        <a ng-if="listPackages" ng-href="#/assets/pacotes/{{ item.packageId }}">
+                            {{ item.description }}
+                        </a>
+                        <span ng-if="!listPackages">{{ item.ipvodAsset.assetId }} - {{ item.ipvodAsset.title }}</span>
+                    </td>
+                    <td ng-if="!listPackages">
+                        <span >{{ item.price }}</span>
+                    </td>
+                    <td ng-if="listPackages">                        
+                        <div class="hidden-sm hidden-xs btn-group">
+                            <a 
+                               ng-href="#/assets/pacotes/{{ item.packageId }}/editar" 
+                               class="btn btn-xs btn-info">
+                                <i class="ace-icon fa fa-pencil bigger-120"></i>
+                            </a>
+
+                            <!-- <a class="btn btn-xs btn-danger" ng-click="removeItem($event, item.packageId, item.description)">
+                                <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                            </a> -->
+                        </div>
+
+                        <!-- Responsive Toolbar -->
+                        <div class="hidden-md hidden-lg">
+                            <div class="inline position-relative">
+                                <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                    <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
+                                </button>
+                    
+                                <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+
+                                    <li>
+                                        <a ng-href="#/assets/pacotes/{{ item.packageId }}" 
+                                           class="tooltip-success" 
+                                           data-rel="tooltip" 
+                                           title="" 
+                                           data-original-title="Edit">
+                                            <span class="green">
+                                                <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a ng-click="removeItem(item.packageId, item.description)" class="tooltip-error" data-rel="tooltip" title="" data-original-title="Delete">
+                                            <span class="red">
+                                                <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                            </span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- End:: Responsive Toolbar -->
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- end:: DataList -->
+
+        <!-- Empty DataList -->
+        <div ng-if="dataList.length === 0" class="alert alert-info no-margin">
+            <i class="fa fa-info-circle"></i> Nenhum registro a visualizar
+        </div>
+        <!-- end:: Empty DataList -->
+
+        <div class="row">
+            <div class="col-xs-6 pull-right dataTables_paginate paging_simple_numbers">
+                <paginator 
+                    paginator-list-data="dataList"
+                    paginator-list-visible-rows="dataListVisibleRows"
+                    paginator-current-page="assetsPaginatorCurrentPage"
+                    paginator-offset="assetsPaginatorOffset"
+                    paginator-total-pages="totalPages"
+                    paginator-control-on-click="onPaginatorControlClick"
+                    paginator-page-button-on-click="loadData"
+                ></paginator>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.span -->
+</div>
+<!-- /.row -->
+
+<!-- Modal Template -->
+<script type="text/ng-template" id="modal-template">
+    <div ng-show="modalTitle !== null" class="modal-header">
+        <h3 class="modal-title">{{ modalTitle }}</h3>
+    </div>
+    <div class="modal-body">{{ modalBody }}</div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">OK</button>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
+</script>
+<!-- End:: Modal Template -->
+
+<!-- PAGE CONTENT ENDS -->

@@ -1,0 +1,231 @@
+<div class="page-content" >
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <div class="page-header">
+            <h1>
+                Assets
+                <small> 
+                    <i class="ace-icon fa fa-angle-double-right"></i> 
+                    Lançamentos
+                </small>
+            </h1>
+        </div>
+        <!-- /.page-header -->
+
+        <div class="row">
+            <div ng-if="!menutreedata.length" class="col-xs-12">
+                <div class="alert alert-info">
+                    <div class="fa fa-circle-o-notch fa-spin"></div>
+                    Carregando...
+                </div>
+            </div>
+            <div ng-hide="!menutreedata.length" class="col-xs-12">
+                <!-- PAGE CONTENT BEGINS -->
+                <!-- tree-col -->
+                <div id="tree-col" class="col-xs-6">
+                    <script type="text/ng-template" id="nodes_menu.html">
+                        <div ui-tree-handle class="tree-node tree-node-content" ng-class="{'disabled':node.active == 0}">
+                            <i class="bigger-130 ace-icon fa fa-film grey" ng-hide="node.title == undefined"></i>
+                            {{node.title}}
+
+                            <button type="button" data-nodrag data-rel="tooltip" data-placement="top" class="itemActionBar" title="" ng-click="removeMenu(this);" data-original-title="Remover" ng-hide="node.permanentMenu">
+                                <i class="icon fa fa-trash-o"></i>
+                            </button>
+                        </div>
+                    </script>
+                    <script type="text/ng-template" id="nodes_asset.html"> 
+                        <div ui-tree-handle class="tree-node tree-node-content" >
+
+                            <i class="bigger-130 ace-icon fa fa-film grey"></i>
+                            {{ node.title }} 
+
+                            <dt ng-hide="node.season == null" style="margin-left: 20px;">
+                                Temporada: {{ node.season }} Episódio: {{ node.episode }}
+                            </dt>
+
+                            <button type="button" data-nodrag data-rel="tooltip" data-placement="top" class="itemActionBar" title="" ng-click="removie(this)" data-original-title="Remover">
+                                <i class="icon fa fa-trash-o"></i>
+                            </button>
+                            <button type="button" data-nodrag data-rel="tooltip" data-placement="top" class="itemActionBar" title="" ng-click="editAsset(this)" data-original-title="Editar" >
+                                <i class="icon fa fa-pencil"></i>
+                            </button>
+                        </div>
+                    </script>
+                    <div ui-tree="treeOptions" id="tree-root">
+                        <ol ui-tree-nodes ng-model="menutreedata">
+                            <li ng-repeat="node in menutreedata" ui-tree-node ng-include="'nodes_menu.html'"></li>
+                        </ol>
+                    </div>
+
+                    <div class="clearfix form-actions">
+                        <button ng-click="save()" type="submit" class="width-35 btn btn-sm btn-primary">
+                            <i class="ace-icon fa fa-check"></i> 
+                            <span class="bigger-110">Enviar</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- end:: tree-col -->
+
+                <!-- Search Form -->
+                <div id="search-form-col" class="col-xs-6">
+                    <div id="conf-menu-filter" class="widget-box widget-color-blue gvt-search-form">
+                        <div class="widget-header">
+                            <h5 class="widget-title bigger lighter">
+                                <i class="fa fa-film"></i> Assets
+                            </h5>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main">
+                               
+                                <!-- Filtros -->
+                                <div class="filter-box widget-box transparent" ng-class="{'collapsed': filterBoxCollapsed}">
+                                    <div class="widget-header">
+                                        <h4 class="widget-title lighter">
+                                            <i class="fa fa-filter"></i> Filtrar
+                                        </h4>
+
+                                        <div class="widget-toolbar no-border">
+                                            <a href="javascript: void(0);" ng-click="toggleFilter()">
+                                                <i class="ace-icon fa fa-chevron-up"></i>
+                                                <i class="ace-icon fa fa-chevron-down"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+<!-- ng-submit="loadAssets(1, searchMovie, selectComponent.selectedMovieCategories, datepickerFrom, datepickerTo)" -->
+                                    <div class="widget-body">
+                                        <div class="widget-main padding-6 no-padding-left no-padding-right">
+                                            <form 
+                                                class="form-search" 
+                                                ng-submit="loadData(1, [{ 'field': 'title', 'op': 'cn', 'data': searchMovie }, { 'field': 'ipvodCategory1.categoryId', 'op': 'eq', 'data': selectComponent.selectedMovieCategories }, { 'field': 'creationDate', 'op': 'ge', 'data': datepickerFrom }, { 'field': 'creationDate', 'op': 'le', 'data': datepickerTo },{ 'field': 'ipvodVisualMenus', 'op': 'nl', 'data': noMenus }])">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <label for="search-movie-input">Nome do Asset</label>
+                                                        <input type="text" id="search-movie-input" class="form-control search-query" ng-model="searchMovie"/>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-filter">
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group">
+                                                                <label for="categories-list">Categorias</label>
+                                                                <ui-select 
+                                                                    multiple 
+                                                                    ng-disabled="disabled"
+                                                                    ng-model="selectComponent.selectedMovieCategories">
+                                                                    <ui-select-match
+                                                                        placeholder="Selecione uma categoria">
+                                                                        {{ $item.description }}
+                                                                    </ui-select-match>
+                                                                    <ui-select-choices 
+                                                                        repeat="category in selectComponent.movieCategories">
+                                                                        {{ category.description }}
+                                                                    </ui-select-choices>
+                                                                </ui-select>
+                                                           </div>
+                                                        </div>
+
+                                                        <div class="col-sm-6">
+                                                            <label for="date-from">A partir de</label>
+                                                            <input type="date" 
+                                                                class="form-control" 
+                                                                ng-model="datepickerFrom"
+                                                                max="{{ datepickerMaxDate }}">
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <label for="date-from">Até</label>
+                                                            <input type="date"
+                                                                class="form-control" 
+                                                                ng-model="datepickerTo"
+                                                                max="{{ datepickerMaxDate }}">
+                                                        </div>
+                                                        <div class="col-sm-12">
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    <input 
+                                                                        class="ace ace-checkbox-2" 
+                                                                        type="checkbox" ng-model="noMenus">
+                                                                    <span class="lbl">
+                                                                        Mostrar apenas os ítens não incluídos nos menus
+                                                                    </span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                   </div>
+                                                </div>
+
+                                                <button class="btn btn-success btn-sm" type="submit">
+                                                    <i class="fa fa-search"></i> Buscar
+                                                </button>
+                                                <button class="btn btn-sm btn-danger" type="button" ng-click="resetFilters()">Limpar filtro</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End:: Filtros -->
+                                
+                                <!-- Pagination Total Rows -->
+                                <div class="pagination-total-rows">{{ totalRows }} registro(s)</div>
+                                <!-- end:: Pagination Total Rows -->
+
+                                <!-- ui-tree -->
+                                <div ui-tree="treeOptions" id="tree-root1" class="noActionBar">
+                                    <ol ui-tree-nodes ng-model="assettreedata">
+                                        <li ng-repeat="node in assettreedata" ui-tree-node ng-include="'nodes_asset.html'"></li>
+                                    </ol>
+                                    <div ng-if="dataList.length === 0" class="alert alert-info">
+                                        <i class="fa fa-warning"></i> Não há registros a exibir.
+                                    </div>
+                                </div>
+                                <!-- end:: ui-tree -->
+
+                                <!-- Pagination -->
+                                <paginator 
+                                    paginator-list-data="dataList"
+                                    paginator-list-visible-rows="dataListVisibleRows"
+                                    paginator-current-page="assetsPaginatorCurrentPage"
+                                    paginator-offset="assetsPaginatorOffset"
+                                    paginator-total-pages="totalPages"
+                                    paginator-control-on-click="onPaginatorControlClick"
+                                    paginator-page-button-on-click="loadData"
+                                ></paginator>
+                                <!-- end:: Pagination -->
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <!-- end:: tree-col -->
+                <!-- PAGE CONTENT ENDS -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.page-content-area -->
+</div>
+<!-- /.page-content-->
+
+<!-- Confirm Modal Template -->
+<script type="text/ng-template" id="modal-confirm-template">
+    <div ng-show="modalTitle !== null" class="modal-header">
+        <h3 class="modal-title">{{ modalTitle }}</h3>
+    </div>
+    <div class="modal-body">
+        <div ng-if="saving">
+            <div class="alert alert-info">
+                <div class="fa fa-cog fa-spin"></div> Salvando...
+            </div>
+        </div>
+        <div ng-if="!saving"> {{ text }} </div>
+    </div>
+    <div class="modal-footer">
+        <button 
+            ng-disabled="{{ saving }}"
+            class="btn btn-primary" ng-click="ok(menu, saving)">OK</button>
+        <button 
+            ng-disabled="{{ saving }}"
+            class="btn btn-warning" ng-click="cancel(saving)">Cancel</button>
+    </div>
+</script>
+<!-- End:: Modal Template -->

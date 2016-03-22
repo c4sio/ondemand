@@ -1,0 +1,15 @@
+<ul class="breadcrumb">
+    <li>
+        <i class="ace-icon fa fa-home home-icon"></i>
+        <a ng-click="unregisterBreadCrumb($event, 0)" 
+            ng-href="#/">Home</a>
+    </li>
+    <li ng-repeat="bc in breadcrumb" ng-class="{ 'active': $index === 0 }">
+        <a ng-if="!$last" 
+           ng-click="unregisterBreadCrumb($event, $index + 1)" 
+           ng-href="{{bc.href}}">
+            {{ bc.label }}
+        </a>
+        <span ng-if="$last">{{ bc.label }}</span>  
+    </li>
+</ul>

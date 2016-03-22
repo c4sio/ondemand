@@ -1,0 +1,68 @@
+<div class="page-header"><h1>Cadastro de Usuário</h1></div>
+
+<div class="dvUserRegister" ng-controller="UserRegisterCtrl">
+	<form name="ngForm" class="form-horizontal">
+		<fieldset>
+			 <div class="form-group">
+                <div class="col-md-3">
+                    <label class="control-label no-padding-right" for="role">Tipo de registro</label>
+                    <select name="role" id="role" ng-model="userRegister.registerType" ng-options="registerType for registerType in registerTypes track by registerType" class="form-control"></select>
+                </div>
+		    </div>
+		    
+		     <div class="form-group" ng-show="userRegister.registerType == 'OPERADORAS'">
+                <div class="col-md-3">
+                    <label class="control-label no-padding-right" for="role">Operadora</label>
+                    <select name="role" id="role" ng-model="userRegister.contentProvider" ng-options="contentProvider.providerId for contentProvider in contentProviders track by contentProvider.providerId" class="form-control"></select>
+                </div>
+		    </div>
+		    
+		    <div class="form-group" >
+                <div class="col-md-6">
+                    <label class="control-label no-padding-right" for="username" ng-show="userRegister.registerType == 'OPERADORAS'">Login</label>
+                    <label class="control-label no-padding-right" for="username" ng-show="userRegister.registerType == 'GVT'">Matricula</label>
+                    <input name="username" id="username" ng-model="userRegister.username" type="text" class="form-control" required/>
+                </div>
+		    </div>
+		    		    
+		    <div class="form-group" ng-show="userRegister.registerType == 'OPERADORAS'">
+                <div class="col-md-3">
+                    <label class="control-label no-padding-right" for="password">Senha</label>
+                    <input name="password" id="password" ng-model="userRegister.password" type="password" class="form-control" required/>
+                </div>
+                <div class="col-md-3">
+                    <label class="control-label no-padding-right" for="passwordConfirm">Repetir Senha</label>
+                    <input name="passwordConfirm" id="passwordConfirm" ng-model="userRegister.passwordConfirm" type="password" class="form-control" required/>
+                </div>
+		    </div>
+		    
+		    <div class="form-group" ng-show="userRegister.registerType == 'OPERADORAS'">
+                <div class="col-md-6">
+                    <label class="control-label no-padding-right" for="email">E-mail</label>
+                    <input name="email" id="email" ng-model="userRegister.email" type="email" class="form-control" required/>
+                </div>
+		    </div>
+		    
+		    <div class="form-group" ng-show="userRegister.registerType == 'GVT'">
+                <div class="col-md-3">
+                    <label class="control-label no-padding-right" for="role">Perfil</label>
+                    <select name="role" id="role" ng-model="userRegister.role" ng-options="role for role in userRoles" class="form-control"></select>
+                </div>
+		    </div>
+	
+			<div class="space-6"></div>
+			
+			<div class="clearfix form-actions">
+			    <div class="col-md-6">
+			        <button ng-click="sendForm(userRegister)" type="submit" class="btn btn-primary" >
+                       <i class="ace-icon fa fa-check bigger-110"></i> Enviar
+				</button>
+                    
+                    <button class="btn" type="button" ng-click="reset()"> 
+                        <i class="ace-icon fa fa-undo bigger-110"></i> Limpar
+                    </button>
+			    </div>
+			</div>
+		</fieldset>
+	</form>
+</div>

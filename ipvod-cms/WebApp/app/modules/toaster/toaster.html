@@ -1,0 +1,24 @@
+<div id="toast-container" ng-class="config.position">
+
+    <!-- Notification Holder -->
+    <div class="animateToaster" ng-repeat="toaster in toasters">
+        <div class="toast alert" ng-class="toaster.type" ng-mouseover="stopTimer(toaster)">
+            <i class="toast-icon {{ toaster.icon }}"></i>
+            <!-- Notification Close Button -->
+            <button type="button" class="close" ng-click="remove(toaster.id)">
+                <i class="ace-icon fa fa-times"></i>
+            </button>
+            <!-- End:: Notification Close Button -->
+            
+            <!-- Notification Title -->
+            <div ng-class="config.title">{{ toaster.title }}</div>
+            <!-- End:: Notification Title -->
+            
+            <!-- Notification Description -->
+            <div ng-class="config.message">{{ toaster.body }}</div>
+            <!-- End:: Notification Description -->
+        </div>
+    </div>
+    <!-- End:: Notification Holder -->
+
+</div>

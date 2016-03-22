@@ -1,0 +1,146 @@
+// Styles for Toaster Module
+.toast-title {
+  font-weight: bold;
+}
+.toast-message {
+  -ms-word-wrap: break-word;
+  word-wrap: break-word;
+  font-size: small;
+}
+.toast-message a,
+.toast-message label {
+  color: #ffffff;
+}
+.toast-message a:hover {
+  color: #cccccc;
+  text-decoration: none;
+}
+.toast-top-full-width {
+  top: 0;
+  right: 0;
+  width: 100%;
+}
+.toast-top-center {
+  top: 0;
+  right: 0;
+  width: 100%;
+}
+.toast-bottom-full-width {
+  bottom: 0;
+  right: 0;
+  width: 100%;
+}
+.toast-top-left {
+  top: 12px;
+  left: 12px;
+}
+.toast-top-right {
+  top: 12px;
+  right: 12px;
+}
+.toast-bottom-right {
+  right: 12px;
+  bottom: 12px;
+}
+.toast-bottom-left {
+  bottom: 12px;
+  left: 12px;
+}
+#toast-container {
+  position: fixed;
+  z-index: 999998;
+}
+#toast-container * {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+#toast-container {
+    .toast { position: relative; }
+    .toast-icon { 
+        position: absolute;
+        left: 15px;
+        top: 12px;
+        font-size: 24px;           
+    }
+}
+#toast-container > div > div {
+  margin: 0 0 6px; 
+  padding: 15px 15px 15px 50px;
+  width: 300px;
+  /*opacity: 0.8;
+  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+  filter: alpha(opacity=80);*/
+}
+#toast-container.toast-top-full-width > div,
+#toast-container.toast-bottom-full-width > div {
+  width: 96%;
+  margin: auto;
+}
+
+#toast-container.toast-top-center > div {
+    width: 300px;
+    margin: 0 auto;
+}
+.toast {
+  z-index: 999999;
+}
+.toast-success {
+  background-color: #51a351;
+}
+.toast-error {
+  background-color: #bd362f;
+}
+.toast-info {
+  background-color: #2f96b4;
+}
+.toast-warning {
+  background-color: #f89406;
+}
+/*Responsive Design*/
+@media all and (max-width: 240px) {
+  #toast-container > div > div {
+    padding: 8px 8px 8px 50px;
+    width: 108px;
+  }
+}
+@media all and (min-width: 241px) and (max-width: 320px) {
+  #toast-container > div > div {
+    padding: 8px 8px 8px 50px;
+    width: 128px;
+  }
+}
+@media all and (min-width: 321px) and (max-width: 480px) {
+  #toast-container > div > div {
+    padding: 8px 8px 8px 50px;
+    width: 192px;
+  }
+}
+@media all and (min-width: 481px) and (max-width: 768px) {
+  #toast-container > div > div {
+    padding: 15px 15px 15px 50px;
+    width: 300px;
+  }
+}
+/*Animation CSS3*/
+@toasterTransition: 500ms;
+@toasterTransition2: (500ms-350ms);
+.animateToaster {
+    transition: top ease-in-out @toasterTransition,  opacity ease-in-out @toasterTransition2;
+    
+    opacity: 1;
+    top: 10px;
+    position: relative;
+} 
+
+.animateToaster.ng-enter.ng-enter-active, 
+.animateToaster.ng-leave { 
+    opacity: 1;
+    top: 10px;
+}
+
+.animateToaster.ng-leave.ng-leave-active,
+.animateToaster.ng-enter {
+    opacity: 0;
+    top: -500px;
+}

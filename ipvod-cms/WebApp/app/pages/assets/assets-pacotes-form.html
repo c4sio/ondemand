@@ -1,0 +1,228 @@
+<div class="page-header">
+    <h1>
+        Assets 
+        <small> 
+            <i class="ace-icon fa fa-angle-double-right"></i> 
+            <span ng-show="action === 'cadastrar'">Cadastrar Categoria</span>
+            <span ng-show="action === 'editar'">Editar Categoria</span>
+            <span ng-show="action !== 'cadastrar' && action !== 'editar'">Categorias</span>
+        </small>
+    </h1>
+</div>
+<!-- /.page-header -->
+
+<!-- PAGE CONTENT BEGINS -->
+<div class="row">
+    <div ng-show="action === 'listar'" class="col-xs-12 wizard-actions">
+        <a href="#/assets/categorias" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Adicionar Categoria</a>
+    </div>
+    <div ng-show="action !== 'cadastrar'" class="col-xs-12"><div class="space-12"></div></div>
+    <div class="col-xs-12">
+        <!-- Form Holder -->
+        <div class="form-holder">
+             <!-- Back button -->
+            <span class="back-button" title="voltar">
+                <a href="javascript: history.back();"><i class="fa fa-arrow-circle-left"></i></a>            
+            </span>
+            <!-- End:: Back button -->
+
+            <form class="form-horizontal" name="packageForm" novalidate ng-submit="submitForm()">
+                <fieldset>
+                    <!-- Category Name -->
+                    <div class="form-group"  
+                       ng-class="{ 'has-error' : packageForm.packageName.$invalid && !packageForm.packageName.$pristine }">
+                        <div class="col-md-6">
+                            <label class="control-label no-padding-right" for="packageName">Nome</label>
+                            <span class="input-icon input-icon-right block">
+                                <input name="packageName" 
+                                    id="packageName" 
+                                    ng-model="packageName" 
+                                    type="text" 
+                                    class="form-control" 
+                                    ng-required="true"
+                                    maxlength="50" 
+                                    >
+                                <i ng-show="packageForm.packageName.$invalid && !packageForm.packageName.$pristine" 
+                                    class="ace-icon fa fa-exclamation-triangle"></i>
+                            </span>
+                            <p ng-show="packageForm.packageName.$invalid && !packageForm.packageName.$pristine" 
+                                class="help-inline no-padding">Forneça um nome para o pacote</p>
+                        </div>
+                    </div>
+                    <!-- End:: Category Name -->
+
+                    <!-- ID Cobrança -->
+                    <div class="form-group"  
+                       ng-class="{ 'has-error' : packageForm.otherId.$invalid && !packageForm.otherId.$pristine }">
+                        <div class="col-md-6"> 
+                            <label class="control-label no-padding-right" for="otherId">ID de Cobrança</label>
+                            <span class="input-icon input-icon-right block">
+                                <input name="otherId" 
+                                    id="otherId" 
+                                    ng-model="otherId" 
+                                    type="text" 
+                                    class="form-control"
+                                    maxlength="50" 
+                                    ng-required="true">
+                                <i ng-show="packageForm.otherId.$invalid && !packageForm.otherId.$pristine" 
+                                    class="ace-icon fa fa-exclamation-triangle"></i>
+                            </span>
+                            <p ng-show="packageForm.otherId.$invalid && !packageForm.otherId.$pristine" 
+                                class="help-inline no-padding">Forneça um nome o ID de Cobrança</p>
+                        </div>
+                    </div>
+                    <!-- End:: ID Cobrança -->
+
+                    <div class="form-group">
+                        <!-- Rating -->
+                        <div class="col-md-3" ng-class="{ 'has-error' : packageForm.rating.$invalid && !packageForm.rating.$pristine }">
+                            <label class="control-label no-padding-right" for="rating">Rating</label>
+                            <span class="input-icon input-icon-right block">
+                                <select 
+                                    name="rating"
+                                    id="rating" 
+                                    ng-model="rating" 
+                                    ng-options="packageRating.description for packageRating in packageRatings track by packageRating.ratingLevel" 
+                                    ng-required="true" 
+                                    class="form-control">
+                                    <option value="">Selecione</option>
+                                </select>
+
+                                <i ng-show="packageForm.rating.$invalid && !packageForm.rating.$pristine" 
+                                    class="ace-icon fa fa-exclamation-triangle"></i>
+                            </span>
+                            <p ng-show="packageForm.rating.$invalid && !packageForm.rating.$pristine" 
+                                class="help-inline no-padding">Informe um rating</p>
+                        </div>
+                        <!-- End:: Rating -->
+
+                        <!-- Type -->
+                        <div class="col-md-3" ng-class="{ 'has-error' : packageForm.type.$invalid && !packageForm.type.$pristine }">
+                            <label class="control-label no-padding-right" for="type">Tipo</label>
+                            <span class="input-icon input-icon-right block">
+                                <select 
+                                    name="type" 
+                                    id="type" 
+                                    ng-model="type" 
+                                    ng-options="packageType.description for packageType in packageTypes track by packageType.packageTypeId" 
+                                    ng-required="true"
+                                    class="form-control">
+                                    <option value="">Selecione</option>
+                                </select>
+                                <i ng-show="packageForm.type.$invalid && !packageForm.type.$pristine" 
+                                    class="ace-icon fa fa-exclamation-triangle"></i>
+                            </span>
+                            <p ng-show="packageForm.type.$invalid && !packageForm.type.$pristine" 
+                                class="help-inline no-padding">Informe um tipo</p>
+                        </div>
+                        <!-- End:: Type -->
+                    </div>
+
+                    <div class="form-group">
+                        <!-- Preço -->
+                        <div class="col-md-3" ng-class="{ 'has-error' : packageForm.price.$invalid && !packageForm.price.$pristine }">
+                            <label class="control-label no-padding-right" for="price">Preço</label>
+                            <span class="input-icon input-icon-right block">
+                                <input type="number" 
+                                    name="price" 
+                                    id="price"
+                                    ng-model="price" 
+                                    class="form-control"
+                                    maxlength="50" 
+                                    ng-required="true"
+                                    model-view-value="true"
+                                    min="0,00"
+                                    max="999.99"
+                                    step="0.01">
+
+                                <i ng-show="packageForm.price.$invalid && !packageForm.price.$pristine" 
+                                    class="ace-icon fa fa-exclamation-triangle"></i>
+                            </span>
+                            <p ng-show="packageForm.price.$invalid && !packageForm.price.$pristine" 
+                                class="help-inline no-padding">Informe um preço entre 0,01 e 999,99</p>
+                        </div>
+                        <!-- End:: Preço -->
+                    </div>
+                    
+                    <div class="form-group">
+                        <!-- Data Início -->
+                        <div class="col-md-3" 
+                         ng-class="{ 'has-error' : packageForm.dateStart.$invalid && !packageForm.dateStart.$pristine }">
+                            <label class="control-label no-padding-right" for="dateStart">Data Inicial</label>
+                            <div class="input-group">
+                                <input 
+                                    id="dateStart" 
+                                    name="dateStart" 
+                                    type="date"
+                                    class="form-control" 
+                                    ng-model="dateStart"
+                                    ng-required="true">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-calendar bigger-110"></i>
+                                </span>
+                            </div>
+                            <p ng-show="packageForm.dateStart.$invalid && !packageForm.dateStart.$pristine" 
+                                class="help-inline no-padding">Informe uma data inicial</p>
+                        </div>
+                        <!-- End:: Data Início -->
+
+                        <!-- Data Fim -->
+                        <div class="col-md-3" 
+                            ng-class="{ 'has-error' : packageForm.dateEnd.$invalid && !packageForm.dateEnd.$pristine }">
+                            <label class="control-label no-padding-right" for="dateEnd">Data Final</label>
+                            <div class="input-group">
+                                <input 
+                                    id="dateEnd" 
+                                    name="dateEnd" 
+                                    type="date"
+                                    class="form-control" 
+                                    ng-model="dateEnd">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-calendar bigger-110"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <!-- End:: Data Fim -->
+                    </div>
+
+                    <div class="space-18"></div>
+                    
+                    <!-- Assets List -->
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <legend>Seleção de Assets</legend>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <!-- Selected Assets List -->
+                        <div class="selected-assets col-sm-6">
+                            <grid id="selected-assets" 
+                                grid-options="selectedAssetsGridOptions" 
+                                nav-options="selectedAssetsGridNavOptions" 
+                                relative-size-to=".selected-assets"></grid>
+                        </div>
+                        <!-- END:: Selected Assets List -->
+                    </div>
+                    <!-- End:: Assets List -->
+
+                    <div class="clearfix form-actions">
+                        <div class="col-md-6">
+                            <button 
+                              ng-disabled="packageForm.$invalid"
+                              type="submit" 
+                              class="btn btn-primary" >
+                               <i class="ace-icon fa fa-check bigger-110"></i> Enviar
+                            </button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+            
+        </div>
+        <!-- END:: Form Holder -->
+    </div>
+    <!-- /.span -->
+</div>
+<!-- /.row -->
+<!-- PAGE CONTENT ENDS -->

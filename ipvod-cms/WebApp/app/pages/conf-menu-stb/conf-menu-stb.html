@@ -1,0 +1,95 @@
+<div class="page-content">
+	<!-- /section:settings.box -->
+	<div class="page-content-area">
+		<div class="page-header">
+			<h1>
+				Configuração <small> <i
+					class="ace-icon fa fa-angle-double-right"></i> definição do menu
+				</small>
+			</h1>
+		</div>
+		<!-- /.page-header -->
+
+		<div class="row">
+			<div class="col-xs-12">
+				<!-- PAGE CONTENT BEGINS -->
+
+				<!-- #section:plugins/fuelux.treeview -->
+				<div class="row">
+					<div class="menuTree col-sm-3">
+						<div angular-treeview="true"
+							data-tree-id="treeMenu" data-tree-model="treedata"
+							data-node-id="id" data-node-label="name"
+							data-node-children="subitens">
+						</div>
+					</div>
+
+					<div class="file-list col-sm-6">
+						<div id="file-path">
+							<ol class="breadcrumb">
+								<li>{{treeMenu.currentNode.name}}</li>
+							</ol>
+						</div>
+
+						<div class="btn-toolbar" role="toolbar">
+							<div class="btn-group">
+								<button type="button" class="btn btn-default"
+									data-toggle="tooltip" data-placement="top" title="Nova pasta">
+									<i class="fa fa-asterisk"></i> <span class="sr-only">Nova
+										pasta</span>
+								</button>
+
+								<button type="button" class="btn btn-default">
+									<i class="fa fa-edit"></i> <span class="sr-only">Renomear</span>
+								</button>
+							</div>
+						</div>
+
+						<table class="table table-striped table-hover">
+							<thead class="thin-border-bottom">
+								<tr>
+									<th class="col-sm-9">Nome</th>
+									<th class="col-sm-3">Data</th>
+								</tr>
+							</thead>
+
+							<tbody id="file-list-content">
+
+								<tr ng-show="treeMenu.currentNode.subitens.length > 0"
+									ng-repeat="detail in treeMenu.currentNode.subitens | orderBy:'name'">
+									<td><i class="ace-icon fa fa-folder"> </i>{{detail.name}}</td>
+									<td></td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+
+					<div id="file-details" class="details col-sm-3">
+						<h3>
+							<i class="ace-icon fa fa-folder"></i>{{treeMenu.currentNode.name}}
+						</h3>
+						<dl>
+							<dt>Descrição</dt>
+							<dd></dd>
+							<dt>Data</dt>
+							<dd></dd>
+							<dt>Itens</dt>
+							<dd>{{treeMenu.currentNode.subitens.length}}</dd>
+						</dl>
+					</div>
+				</div>
+
+				<!-- /section:plugins/fuelux.treeview -->
+				<script type="text/javascript">
+					var $assets = "../assets";//this will be used in fuelux.tree-sampledata.js
+				</script>
+
+				<!-- PAGE CONTENT ENDS -->
+			</div>
+			<!-- /.col -->
+		</div>
+		<!-- /.row -->
+	</div>
+	<!-- /.page-content-area -->
+</div>

@@ -1,0 +1,103 @@
+<div class="page-header">
+    <h1>
+        Assets 
+        <small> 
+            <i class="ace-icon fa fa-angle-double-right"></i> 
+            <span ng-show="action === 'cadastrar'">Cadastrar Categoria</span>
+            <span ng-show="action === 'editar'">Editar Categoria</span>
+            <span ng-show="action !== 'cadastrar' && action !== 'editar'">Categorias</span>
+        </small>
+    </h1>
+</div>
+<!-- /.page-header -->
+
+<!-- PAGE CONTENT BEGINS -->
+<div class="row">
+    <div ng-show="action === 'listar'" class="col-xs-12 wizard-actions">
+        <a href="#/assets/categorias" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Adicionar Categoria</a>
+    </div>
+    <div ng-show="action !== 'cadastrar'" class="col-xs-12"><div class="space-12"></div></div>
+    <div class="col-xs-12">
+        <!-- Form Holder -->
+        <div class="form-holder">
+             <!-- Back button -->
+            <span class="back-button" title="voltar">
+                <a href="javascript: history.back();"><i class="fa fa-arrow-circle-left"></i></a>            
+            </span>
+            <!-- End:: Back button -->
+
+            <form class="form-horizontal" name="categoryForm" novalidate ng-submit="submitForm()">
+                <fieldset>
+                    <!-- Category Name -->
+                    <div class="form-group"  
+                       ng-class="{ 'has-error' : categoryForm.categoryName.$invalid && !categoryForm.categoryName.$pristine }">
+                        <div class="col-md-6">
+                            <label class="control-label no-padding-right" for="categoryName">Nome</label>
+                            <span class="input-icon input-icon-right block">
+                                <input name="categoryName" 
+                                    id="categoryName" 
+                                    ng-model="categoryName" 
+                                    type="text" 
+                                    class="form-control" 
+                                    required
+                                    ng-required="true"
+                                    >
+                                <i ng-show="categoryForm.categoryName.$invalid && !categoryForm.categoryName.$pristine" 
+                                    class="ace-icon fa fa-exclamation-triangle"></i>
+                            </span>
+                            <p ng-show="categoryForm.categoryName.$invalid && !categoryForm.categoryName.$pristine" 
+                                class="help-inline no-padding">Forneça um nome para a categoria</p>
+                        </div>
+                    </div>
+                    <!-- End:: Category Name -->
+                    
+                    <div class="space-18"></div>
+                    
+                    <!-- Assets List -->
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <legend>Seleção de Assets</legend>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <!-- Selected Assets List -->
+                        <div class="selected-assets col-sm-6">
+                            <grid id="selected-assets" 
+                                grid-options="selectedAssetsGridOptions" 
+                                nav-options="selectedAssetsGridNavOptions" 
+                                relative-size-to=".selected-assets"></grid>
+                        </div>
+                        <!-- END:: Selected Assets List -->
+
+                        <!-- Available Assets List -->
+                        <div class="available-assets col-sm-6">
+                            <grid id="available-assets" 
+                                grid-options="availableAssetsGridOptions" 
+                                nav-options="availableAssetsGridNavOptions" 
+                                relative-size-to=".available-assets"></grid>
+                        </div>
+                        <!-- END:: Available Assets List -->    
+                    </div>
+                    <!-- End:: Assets List -->
+
+                    <div class="clearfix form-actions">
+                        <div class="col-md-6">
+                            <button 
+                              ng-disabled="categoryForm.$invalid"
+                              type="submit" 
+                              class="btn btn-primary" >
+                               <i class="ace-icon fa fa-check bigger-110"></i> Enviar
+                            </button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+            
+        </div>
+        <!-- END:: Form Holder -->
+    </div>
+    <!-- /.span -->
+</div>
+<!-- /.row -->
+<!-- PAGE CONTENT ENDS -->
