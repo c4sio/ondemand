@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0"
+	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="VODEJB">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<!-- <jta-data-source>java:jboss/datasources/VodDS</jta-data-source> -->
+		<jta-data-source>java:jboss/datasources/VodDSTeste</jta-data-source>
+		<class>br.com.gvt.eng.vod.model.IpvodEquipmentType</class>
+		<class>br.com.gvt.eng.vod.model.IpvodAssetPackage</class>
+		<class>br.com.gvt.eng.vod.model.IpvodAssetType</class>
+		<class>br.com.gvt.eng.vod.model.IpvodAuthentication</class>
+		<class>br.com.gvt.eng.vod.model.IpvodAuthenticationSystem</class>
+		<class>br.com.gvt.eng.vod.model.IpvodBookmark</class>
+		<class>br.com.gvt.eng.vod.model.IpvodBalancerData</class>
+		<class>br.com.gvt.eng.vod.model.IpvodConvoyData</class>
+		<class>br.com.gvt.eng.vod.model.IpvodDrmData</class>
+		<class>br.com.gvt.eng.vod.model.IpvodCategory</class>
+		<class>br.com.gvt.eng.vod.model.IpvodContentProvider</class>
+		<class>br.com.gvt.eng.vod.model.IpvodEquipment</class>
+		<class>br.com.gvt.eng.vod.model.IpvodEventType</class>
+		<class>br.com.gvt.eng.vod.model.IpvodIngestStage</class>
+		<class>br.com.gvt.eng.vod.model.IpvodIngestType</class>
+		<class>br.com.gvt.eng.vod.model.IpvodMediaAsset</class>
+		<class>br.com.gvt.eng.vod.model.IpvodMediaType</class>
+		<class>br.com.gvt.eng.vod.model.IpvodNotification</class>
+		<class>br.com.gvt.eng.vod.model.IpvodPackage</class>
+		<class>br.com.gvt.eng.vod.model.IpvodPackageType</class>
+		<class>br.com.gvt.eng.vod.model.IpvodPreset</class>
+		<class>br.com.gvt.eng.vod.model.IpvodPurchase</class>
+		<class>br.com.gvt.eng.vod.model.IpvodRating</class>
+		<class>br.com.gvt.eng.vod.model.IpvodReason</class>
+		<class>br.com.gvt.eng.vod.model.IpvodSession</class>
+		<class>br.com.gvt.eng.vod.model.IpvodSystemPasswordRecover</class>
+		<class>br.com.gvt.eng.vod.model.IpvodUser</class>
+		<class>br.com.gvt.eng.vod.model.IpvodAsset</class>
+		<class>br.com.gvt.eng.vod.model.IpvodVisualComponent</class>
+		<class>br.com.gvt.eng.vod.model.IpvodVisualMenu</class>
+		<class>br.com.gvt.eng.vod.model.IpvodVisualMenuAsset</class>
+		<class>br.com.gvt.eng.vod.model.IpvodUserSystem</class>
+		<class>br.com.gvt.eng.vod.model.IpvodLanguagePK</class>
+		<class>br.com.gvt.eng.vod.model.IpvodLanguage</class>
+		<class>br.com.gvt.eng.vod.model.IpvodHighlight</class>
+		<class>br.com.gvt.eng.vod.model.IpvodHistory</class>
+		<class>br.com.gvt.eng.vod.model.IpvodRelease</class>
+		<class>br.com.gvt.eng.vod.model.IpvodTwitterAuth</class>
+		<class>br.com.gvt.eng.vod.model.IpvodSchedulePublication</class>
+		<class>br.com.gvt.eng.vod.model.IpvodAppCategory</class>
+		<class>br.com.gvt.eng.vod.model.IpvodAppInfo</class>
+		<class>br.com.gvt.eng.vod.model.IpvodAppImage</class>
+		<class>br.com.gvt.eng.vod.model.IpvodEquipmentHybrid</class>
+		<class>br.com.gvt.eng.vod.model.IpvodAppMenu</class>
+		<class>br.com.gvt.eng.vod.model.IpvodAppMenuCategory</class>
+		<class>br.com.gvt.eng.vod.model.IpvodAppExclusiveUser</class>
+		<class>br.com.gvt.eng.vod.model.IpvodCheckSumData</class>
+
+		<exclude-unlisted-classes>false</exclude-unlisted-classes>
+		<shared-cache-mode>NONE</shared-cache-mode>
+
+		<properties>
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.transaction.flush_before_completion"
+				value="false" />
+			<!-- <property name="hibernate.hbm2ddl.auto" value="update" /> -->
+			<property name="hibernate.enable_lazy_load_no_trans" value="true" />
+			<property name="hibernate.connection.release_mode" value="after_statement" />
+		</properties>
+
+	</persistence-unit>
+</persistence>
